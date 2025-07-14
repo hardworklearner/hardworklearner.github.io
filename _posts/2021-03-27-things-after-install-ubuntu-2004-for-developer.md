@@ -1,6 +1,6 @@
 ---
 title: Things after install ubuntu 20.04 for developer
-author: Leo
+author: Hardwork
 categories:
 - Operation
 - Ubuntu
@@ -11,7 +11,7 @@ tags:
 ---
 
 # First step
-[Here is download file of the install scrip](https://raw.githubusercontent.com/zmerrychristmas/zmerrychristmas.github.io/master/download/install.sh)
+[Here is download file of the install scrip](https://raw.githubusercontent.com/hardworkenglishlearner/hardworkenglishlearner.github.io/master/download/install.sh)
 
 *For a quick setup, I recommend that you create a file called  ``install.sh`` and run the following command every time you install:*
 ```zsh

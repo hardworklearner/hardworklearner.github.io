@@ -12,7 +12,7 @@ Create an E-Commerce website with laravel 9 and VueJs :
 - Laravel Broadcast event to observe status of serve and update to client.
 - Deploy website to AWS EC2.
 
-Checkout source code on my [git](https://github.com/zmerrychristmas/Ecommerce-website-by-Laravel-and-VueJs-api-integration-with-event-handle)
+Checkout source code on my [git](https://github.com/hardworkenglishlearner/Ecommerce-website-by-Laravel-and-VueJs-api-integration-with-event-handle)
 
 # Part 1 Install
 

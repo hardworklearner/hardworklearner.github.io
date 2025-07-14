@@ -81,7 +81,7 @@ sudo apt install postgresql-11 libpq-dev
 ```
 bước 2:  cài đặt password 
 ```sh
-sudo -u postgres createuser zmerrychristmas -s
+sudo -u postgres createuser hardworkenglishlearner -s
 # If you would like to set a password for the user, you can do the following
 sudo -u postgres psql
 postgres=# \password 123456

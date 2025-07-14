@@ -25,23 +25,23 @@ description: >-                        # used by seo meta and the atom feed
   and focuses on text presentation.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: 'https://zmerrychristmas.github.io'
+url: 'https://hardworkenglishlearner.github.io'
 
-author: Leo đẹp trai                  # change to your full name
+author: Hardwork đẹp trai                  # change to your full name
 
 github:
-  username: zmerrychristmas             # change to your github username
+  username: hardworkenglishlearner             # change to your github username
 
 twitter:
   username: twitter_username # change to your twitter username
 
 social:
-  name: Leo đẹp trai                  # it will shows as the copyright owner in Footer
+  name: Hardwork đẹp trai                  # it will shows as the copyright owner in Footer
   email: huybinh.ad@gmail.com             # change to your email address
   links:
     # The first element serves as the copyright owner's link
     - https://twitter.com/username      # change to your twitter homepage
-    - https://github.com/zmerrychristmas       # change to your github homepage
+    - https://github.com/hardworkenglishlearner       # change to your github homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     - https://www.linkedin.com/in/b%C3%ACnh-nguy%E1%BB%85n-75312a7b/
@@ -100,7 +100,7 @@ comments:
   # The active options are as follows:
   disqus:
     # comments: true
-    shortname: 'zmerrychristmas-github-io'   # fill with the Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
+    shortname: 'hardworkenglishlearner-github-io'   # fill with the Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
   # utterances settings › https://utteranc.es/
   utterances:
     repo: # <gh-username>/<repo>

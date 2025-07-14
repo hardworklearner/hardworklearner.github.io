@@ -20,7 +20,7 @@ _no_pages_branch=false
 
 _backup_dir="$(mktemp -d)"
 
-_baseurl="https://zmerrychristmas.github.io"
+_baseurl="https://hardworkenglishlearner.github.io"
 
 help() {
   echo "Build, test and then deploy the site content to 'origin/<pages_branch>'"

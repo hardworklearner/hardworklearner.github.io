@@ -1,6 +1,6 @@
 ---
 title: Rails validation form
-author: Leo
+author: Hardwork
 date: '2021-03-28 23:29:00 +0700'
 categories:
 - Fullstack
