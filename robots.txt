@@ -2,4 +2,4 @@ User-agent: *
 
 Disallow: /norobots/
 
-Sitemap: https://hardworkenglishlearner.github.io/sitemap.xml
+Sitemap: https://hardworklearner.github.io/sitemap.xml
