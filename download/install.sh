@@ -46,9 +46,9 @@ gem install bundler
 # git
 sudo apt-get install git
 git config --global color.ui true
-git config --global user.name "Nguyen Huy Binh"
-git config --global user.email "huybinh.ad@gmail.com"
-ssh-keygen -t rsa -b 4096 -C "huybinh.ad@gmail.com"
+git config --global user.name "Nguyen Hardwork"
+git config --global user.email "hardworkenglishlearner@gmail.com
+ssh-keygen -t rsa -b 4096 -C "hardworkenglishlearner@gmail.com
 #composer
 curl -sS https://getcomposer.org/installer -o composer-setup.php
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
