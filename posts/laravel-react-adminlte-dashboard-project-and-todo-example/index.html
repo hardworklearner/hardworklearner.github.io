@@ -1309,7 +1309,7 @@ php artisan db:seed
         <span class="nc">App\Member</span><span class="o">::</span><span class="nf">truncate</span><span class="p">();</span>
         <span class="no">DB</span><span class="o">::</span><span class="nf">statement</span><span class="p">(</span><span class="s1">'SET FOREIGN_KEY_CHECKS=1;'</span><span class="p">);</span>
         <span class="no">DB</span><span class="o">::</span><span class="nf">table</span><span class="p">(</span><span class="s1">'member'</span><span class="p">)</span><span class="o">-&gt;</span><span class="nb">delete</span><span class="p">();</span>
-        <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'Nguyen Kim'</span><span class="p">;</span>
+        <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'Test user 1'</span><span class="p">;</span>
         <span class="nc">Member</span><span class="o">::</span><span class="nf">create</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
             <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span>
             <span class="s1">'information'</span> <span class="o">=&gt;</span> <span class="s1">'test'</span><span class="p">,</span>
@@ -1320,7 +1320,7 @@ php artisan db:seed
             <span class="s1">'avatar'</span> <span class="o">=&gt;</span> <span class="s1">'storage/images/default.png'</span>
         <span class="p">));</span>
 
-        <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'Nguyen Phuc'</span><span class="p">;</span>
+        <span class="nv">$name</span> <span class="o">=</span> <span class="s1">'Test user 2'</span><span class="p">;</span>
         <span class="nc">Member</span><span class="o">::</span><span class="nf">create</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
             <span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span>
             <span class="s1">'information'</span> <span class="o">=&gt;</span> <span class="s1">'test'</span><span class="p">,</span>
