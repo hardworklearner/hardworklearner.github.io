@@ -1,0 +1,396 @@
+[
+  {
+    "title": "Laravel React AdminLTE Dashboard Project and todo example",
+    "url": "/posts/laravel-react-adminlte-dashboard-project-and-todo-example/",
+    "categories": "",
+    "tags": "",
+    "date": "2024-10-07 00:00:00 +0700",
+    "content": "Laravel React AdminLTE Project management example code  Admin Dashboard using Laravel, AdminLTE and ReactJs to coded a website with purpose using in Project management, due to example code for tuto..."
+  },
+  {
+    "title": "Virtual Private Cloud (VPC) part 2",
+    "url": "/posts/virtual-private-cloud-vpc-part-2/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, vpc, subnet, DataSync, Disaster Recovery Strategies, PilotLight, Database Migration Service, Disaster Recovery, DMS",
+    "date": "2024-02-08 00:00:00 +0700",
+    "content": "Virtual Private Cloud (VPC) VPC Components Diagram  Understanding CIDR - IPv4    Classless Inter-Domain Routing - a method for allocating IP addresses   Used in Security Groups rules and AWS networ..."
+  },
+  {
+    "title": "AWS White Papers and Architectures",
+    "url": "/posts/aws-white-papers-and-architectures/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, Architecture",
+    "date": "2024-02-08 00:00:00 +0700",
+    "content": "White Papers and Architectures Well Architected Framework, Disaster Recovery, etc… Section Overview    Well Architected Framework Whitepaper   Well Architected Tool   AWS Trusted Advisor   Referenc..."
+  },
+  {
+    "title": "AWS Virtual Private Cloud Overview (VPC) part 1",
+    "url": "/posts/aws-virtual-private-cloud-overview-vpc-part-1/",
+    "categories": "Fullstack, Blogging, AWS",
+    "tags": "AWS, VPC, NACL, Transit Gateway, AWS Private Link, Direct Connect, VPC Flow Logs, Ephemeral Ports, VPC Peering, Internet Gateway, NAT, AWS VPN CloudHub, VPN",
+    "date": "2024-02-07 00:00:00 +0700",
+    "content": "Virtual Private Cloud (VPC) Default VPC Walkthrough    All new AWS accounts have a default VPC   New EC2 instances are launched into the default VPC of no subnet is specified   Default VPC has Inte..."
+  },
+  {
+    "title": "AWS Router 53",
+    "url": "/posts/aws-router-53/",
+    "categories": "Fullstack, Blogging, AWS",
+    "tags": "aws, router53, DNS, A, AA, CNAME, MX, TXT, TTL, NS, Hosted Zones, Geoproximity, Traffic flow, Routing Policies, Geolocation, Failover(Active - Passive), PrivateHosted Zones, Health Checks",
+    "date": "2024-02-07 00:00:00 +0700",
+    "content": "Route 53 Section What is DNS    Domain Name System which translates the human friendly hostnames into the machine IP address   www.google.com =&amp;gt; 172.2.17.18.36   DNS is the backbone of the inter..."
+  },
+  {
+    "title": "Extra Solution Architecture and AWS Services discussions",
+    "url": "/posts/extra-solution-architecture-and-aws-services-discussions/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "FanOut, SNS, SQS, Lambda, EC2, SA, Solution, Pattern, CloudFront, WAF, ALB, Solution Architecture, HighPerformance Computing, Cache, NLB",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "Extra Solution Architecture and AWS Services discussions Lambda, SNS &amp;amp; SQS    SQS + Lambda   SQS FIFO + Lambda   SNS asynchroous to Lambda + SQS     Fan Out Pattern: deliver to multiple SQS    ..."
+  },
+  {
+    "title": "Exam Review & Tips",
+    "url": "/posts/exam-review-tips/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "Exam Review &amp;amp; Tips State of learning checkpoint    Let look how far we’ve gone on our learning      Practice makes perfect      If you’re new to AWS, take a bit of AWS practice thanks to this c..."
+  },
+  {
+    "title": "Developing on AWS",
+    "url": "/posts/developing-on-aws/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, SDK, AWS, AWS SDK",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "Developing on AWS AWS EC2 Instance Metadata    AWS EC2 Instance Medata is powerful but one of the least known features to developers   It allows AWS EC2 instances to “learn about themselves” withou..."
+  },
+  {
+    "title": "AWS Security & Encryption",
+    "url": "/posts/aws-security-encryption/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "AWS, SSL, KMS, AWS KMS, AWS Shared Responsibility Model, Amazon Macie, Amazon Inspector, AWS Secrets Manager, AWS Shield, CloudHSM, AWS WAF, AWS Firewall Manager, Amazon GuardDuty, Inspector, SSM",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "AWS Security &amp;amp; Encryption KMS, Encryption SDK, SSM Parameter Store Why encryption? Encryptio in flight (SSL)    Data is encrypted before sennding and decrypted after receiving   SSL certtificat..."
+  },
+  {
+    "title": "AWS Question and Answer Practice",
+    "url": "/posts/aws-question-and-answer-practice/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, FAQ",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "What is ACM?            The AWS certtificates manager is a service which allow the creation, managerment and renewable of certificates. It allow deployment certificcatte onto support AWS service su..."
+  },
+  {
+    "title": "AWS Monitoring, Audit, and Performance",
+    "url": "/posts/aws-monitoring-audit-and-performance/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, cloud Watch, SSO, AWS Resource Access Manager, SCP, IAM, Could Trailt, EventBridge",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "AWS Monitoring, Audit and Performance AWS CloudWatch Metrics    Cloudwatch provides metrics for every services in AWS   Metric is a variable to monitor (CPUUtilization, NetworkIn…)   Metrics belong..."
+  },
+  {
+    "title": "AWS Machine Learning",
+    "url": "/posts/aws-machine-learning/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, Rekognition, Transcribe, Polly, Translate, Lex& Connect, Comprehend, Sage Maker, Forecast, Kendra, Personalize, Textract",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "Machine Learning Amazon Rekognition    Find objects, people, text, scenes in images and videos using ML   Facial analysis and facial search to do user verification, people counting   Create a datab..."
+  },
+  {
+    "title": "AWS Integration & Messaginng",
+    "url": "/posts/aws-integration-messaginng/",
+    "categories": "Fullstack, Blogging, AWS",
+    "tags": "sqs, SQS, Queue, Long Polling, decouple",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "AWS Integration &amp;amp; Messaginng SQS, SNS &amp;amp; Kinesis    When we start deploying multiple applications, they will inevitably need to communicate with one another   There are two patterns of appli..."
+  },
+  {
+    "title": "AWS DNS",
+    "url": "/posts/aws-dns/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, dns, route53, aws zone",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "AWS DNS    DNS is a discovery service   Translate machine into human and vice versa   wwww.amazon.com =&amp;gt; 104.98.34.131   it’s huge and has to be distributed   4294967296 IPv4     DNS Zone      W..."
+  },
+  {
+    "title": "AWS Database: RDS, Aurora, ElastiCache, DynamoDB, S3, Athena, Redshift, AWS Glue, AWS Neptune, ElasticSearch",
+    "url": "/posts/aws-database-rds-aurora-elasticache-dynamodb-s3-athena-redshift-aws-glue-aws-neptune-elasticsearch/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, athena, RedShift, dynamodb, RDS, glue, neptune, Redshift, s3, ElastiCache, ElasticSearch, Database",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "Databases Choosing the Right Database    Read-heavy, write heavy, or database workload? Throughput needs? Will it change, does it need to scale or fluctuate during the day?   How much data to store..."
+  },
+  {
+    "title": "AWS Container: Docker, ECS and EKS",
+    "url": "/posts/aws-container-docker-ecs-and-eks/",
+    "categories": "Fullstack, Architect, Blogging",
+    "tags": "aws, ECS, EKS, Docker",
+    "date": "2024-02-06 00:00:00 +0700",
+    "content": "Container Section    Docker is a software development platform to deploy apps   Apps are packaged in containers that can be run on any OS   Apps run the same, regardless of where they’re run       ..."
+  },
+  {
+    "title": "Serverless Overview",
+    "url": "/posts/serverless-overview/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "lambda, dynamodb, api, APIGateway, Cognito, SAM, CodeDeploy",
+    "date": "2024-02-05 00:00:00 +0700",
+    "content": "Serverless Overview    Serverless is a new paradigm in which the developers don’t have to manage servers anymore…   They just deploy code   They just deploy… functions !   Initially… Serverless == ..."
+  },
+  {
+    "title": "Serverless Architectures Examples",
+    "url": "/posts/serverless-architectures-examples/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "serverless, bigdata, pipeline, Micro Services, kinesis, firehorse, athena, QuickSight, RedShift",
+    "date": "2024-02-05 00:00:00 +0700",
+    "content": "Serverless Architectures Serverless hosted website: MyBlog.com    This website should scale globally   Blogs are rarely written, but often read   Some of the website is purely static files, the res..."
+  },
+  {
+    "title": "AWS S3 and AWS Storage Gateway Services:",
+    "url": "/posts/aws-s3-and-aws-storage-gateway-services/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, architecture, fullstack, s3, Glacier, EFS, FSx, EBS, kms, database, Snow family, CloudFront, InstanceStorage, StorageGateway",
+    "date": "2024-02-05 00:00:00 +0700",
+    "content": "Advannce S3 S3 MFA Delete    MFA (mutil factor authentication) forces uses to genenrate a code in a device (usually a mobile phone or hardware) before doing important operation on S3   To use MFA-D..."
+  },
+  {
+    "title": "Advance S3",
+    "url": "/posts/advance-s3/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "fullstack, architecture, s3, MFA, KMS",
+    "date": "2024-02-05 00:00:00 +0700",
+    "content": "Advanced S3 S3 MFA-Delete    MFA (multi factor authentication) forces user to generate a code on a device (ussually a mobile phone or hardware) before doing important operations on S3   To use MFA-..."
+  },
+  {
+    "title": "AWS Api gateway, Lambda, Serverless, and Services part I",
+    "url": "/posts/aws-api-gateway-lambda-serverless-and-services/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, sqs, sns, serverless, service, sts",
+    "date": "2022-12-05 00:00:00 +0700",
+    "content": "AWS API Gateway    AWS Lambda + API Gateway: No infrastructure to manage   Support for the WebSocket Protocol   Handle API versioning (v1, v2…)   Handle different environments (dev, test, prod…)   ..."
+  },
+  {
+    "title": "AWS concept and classic Solutions Architecture",
+    "url": "/posts/aws-concept-and-classic-solutions-architecture/",
+    "categories": "",
+    "tags": "",
+    "date": "2022-12-04 00:00:00 +0700",
+    "content": "AWS Concept for solution architect AWS History    2002 Internally launched   2003 Amazon infrastructure is one of their core strength. Idea to market   2004 Launched publicly with SQS   2006 Re-lau..."
+  },
+  {
+    "title": "AWS Advance: Aurora",
+    "url": "/posts/aws-advance-elasticache-rds-and-aurora-part-3/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aurora, database",
+    "date": "2022-12-04 00:00:00 +0700",
+    "content": "Amazon Aurora    Aurora is a proprietary technology from AWS (not open sourced)   Postgress and MYSQL are both supported as Aurora DB (that means your drivers will work as if Aurora was a Postgres ..."
+  },
+  {
+    "title": "AWS Advance: RDS",
+    "url": "/posts/aws-advance-alb-clb-rds-and-aurora-part-2/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws, RDS, Encryption, DisaterRecovery, Security, Encapsolution",
+    "date": "2022-12-04 00:00:00 +0700",
+    "content": "RDS AWS RDS Overview    RDS stannds for Relatioal Database service   It’s a managed DB service for DB use SQL as a query language.   It allow you to create databases in the cloud that are managed b..."
+  },
+  {
+    "title": "AWS Certified Solutions Architect - Associate (SAA-C03) Exam Guide",
+    "url": "/posts/aws-certified-solutions-architect-associate-saa-c03-exam-guide/",
+    "categories": "Fullstack, Architect, AWS",
+    "tags": "aws",
+    "date": "2022-12-03 00:00:00 +0700",
+    "content": "Content outline This exam guide includes weightings, test domains, and task statements for the exam. It is not a comprehensive listing of the content on the exam. However, additional context for ea..."
+  },
+  {
+    "title": "AWS Advance: Auto scaling and auto load balancer",
+    "url": "/posts/aws-advance/",
+    "categories": "Fullstack, AWS, Architect",
+    "tags": "aws\naurora, elasticcache, rds, aurora, redis, memcache, template, asg, acl, NLB",
+    "date": "2022-12-03 00:00:00 +0700",
+    "content": "SSL/TLS - Basics    An SSL Certificate allow traffic between your clients and your load balancer to be encrypted in transit (i-flight encryption)   SSL refers to Secure Soccket Layeer, used to encr..."
+  },
+  {
+    "title": "Node.JS concept",
+    "url": "/posts/nodejs-concept/",
+    "categories": "documents, concept, tutorials, nodejs",
+    "tags": "node.js, javascript, js, node, emitt",
+    "date": "2022-09-02 00:00:00 +0700",
+    "content": "NodeJS - Concept Node.js is an open-source and cross platform javascript runtime environment. It is a popular tool for almost any kind of project! NodeJS is javascript on the server, built from v8 ..."
+  },
+  {
+    "title": "gRPC – An RPC library and framework",
+    "url": "/posts/grpc-an-rpc-library-and-framework/",
+    "categories": "",
+    "tags": "",
+    "date": "2022-05-10 00:00:00 +0700",
+    "content": ""
+  },
+  {
+    "title": "How to create ecommerce website use Laravel 9, VueJs, Docker, Supervisord, Brooadcast and Redis Queue (part 1)",
+    "url": "/posts/how-to-create-ecommerce-website-use-laravel-9-vuejs-docker-supervisord-brooadcast-and-redis-queue-part-1/",
+    "categories": "",
+    "tags": "",
+    "date": "2022-05-09 00:00:00 +0700",
+    "content": "Introdution  Create an E-Commerce website with laravel 9 and VueJs :     Dockerize setup all in one   API integration.   Redis for queue job in concurrency request.   Supervisor manage queue job(La..."
+  },
+  {
+    "title": "SOLID principles, and SOLID in frameworks (part 1)",
+    "url": "/posts/solid-principles-and-solid-in-frameworks/",
+    "categories": "Blogging, Tutorial",
+    "tags": "solid, rails, laravel, PHP, ruby, python",
+    "date": "2022-04-16 00:00:00 +0700",
+    "content": "Solid principles contains five best praticles when construct source code by OOP methodology.    Single responsible principles The single-responsibility principle (SRP) is a computer-programming pri..."
+  },
+  {
+    "title": "How to build a Shortened URL By Ruby On Rails like Bitly or Twitter",
+    "url": "/posts/shortened-url-by-ruby-on-rails/",
+    "categories": "Framework, Rails",
+    "tags": "rails, api, rspec, shortenURL",
+    "date": "2022-04-16 00:00:00 +0700",
+    "content": "How to build a Shortened URL By Ruby On Rails like Bitly or Twitter Give a website shortenedUrl to convert longURL to short URL with alpha lexigraphy encoded/decoded response to User.    Give two e..."
+  },
+  {
+    "title": "Decoupling Ruby on Rails: Delegation vs Dependency Injection",
+    "url": "/posts/decoupling-ruby-on-rails-delegation-vs-dependency-injection/",
+    "categories": "Fullstack, Backend",
+    "tags": "ruby, solid, dependency, rails, oop",
+    "date": "2022-04-16 00:00:00 +0700",
+    "content": "Delegation &amp;amp;&amp;amp; Dependency Injection Delegation Ruby’s standard library provides us SimpleDelegator as an easy way to implement the decorator pattern. You pass in your object to the construct..."
+  },
+  {
+    "title": "Loop with decrement order in Python, Ruby, PHP.",
+    "url": "/posts/loop-with-decrement-order-in-Python-Ruby-PHP/",
+    "categories": "Fullstack, Python",
+    "tags": "python, ruby, php, loop, for-loop",
+    "date": "2022-03-12 00:00:00 +0700",
+    "content": "Loop in decrease mode Python In Python, decrement is not clearly supported by syntax. By default, the loop is used to iterate over the sequence: a list, a tuple, a dictionary, a set, or a string. F..."
+  },
+  {
+    "title": "Repository pattern và repository pattern trong laravel",
+    "url": "/posts/Repository-pattern-va-repository-pattern-trong-laravel/",
+    "categories": "Fullstack, Backend, DesignPattern",
+    "tags": "design-pattern, laravel",
+    "date": "2021-07-31 00:00:00 +0700",
+    "content": "Repository pattern Khái niệm Design Pattern là một kỹ thuật trong lập trình hướng đối tượng, nó khá quan trọng và mọi lập trình viên muốn giỏi đều phải biết. Được sử dụng thường xuyên trong các ngô..."
+  },
+  {
+    "title": "Phương thức thanh toán Softbank cài đặt bằng ngôn ngữ PHP",
+    "url": "/posts/softbank-payment-japan/",
+    "categories": "Tutorial, Payment",
+    "tags": "php, softbank, au, paypay",
+    "date": "2021-07-18 00:00:00 +0700",
+    "content": "Phương thức Softbank payment bằng PHP Tôi sẽ bắt đầu với nội dung bài viết luôn, với lý do là có biết bao phương thức payment và nếu bạn làm việc ở thị trường Nhật thì softbank payment là một phươn..."
+  },
+  {
+    "title": "Trình soạn thảo cho jekyll",
+    "url": "/posts/jekyll-admin-simple-but-power-editor-for-jekyll/",
+    "categories": "Blogging, Tutorial",
+    "tags": "jekyll, rails, bugs",
+    "date": "2021-07-18 00:00:00 +0700",
+    "content": "Jekyll admin editor Jekyll admin được cung cấp bới Opensource, với hệ thống support khá khiêm tốn hiện tại jekyll-admin đang dừng lại version 0.11.0 nhưng nếu chỉ là khiếm tốn thì tôi sẽ không giới..."
+  },
+  {
+    "title": "Rails dynamic notifications by ajax",
+    "url": "/posts/rails-dynamic-notifications/",
+    "categories": "Fullstack, Rails",
+    "tags": "rails, javascript, notification, ajax",
+    "date": "2021-04-09 00:00:00 +0700",
+    "content": "Controller    def get_data_notification     per_page = 5     page = params[:page].present? ? params[:page].to_i : 1     all_notiff = NotificationServices::GetList.new(current_account).run()     @to..."
+  },
+  {
+    "title": "Add highlight input filed",
+    "url": "/posts/add-highlight-input-filed/",
+    "categories": "Fullstack, Stylesheets",
+    "tags": "input, bootstrap, blue-highline",
+    "date": "2021-04-08 00:00:00 +0700",
+    "content": "textarea:focus, input[type=&quot;text&quot;]:focus, input[type=&quot;password&quot;]:focus, input[type=&quot;datetime&quot;]:focus, input[type=&quot;datetime-local&quot;]:focus, input[type=&quot;date&quot;]:focus, input[type=&quot;month&quot;]:focus, input[..."
+  },
+  {
+    "title": "Rails validation form",
+    "url": "/posts/rails-validation-form/",
+    "categories": "Fullstack, Rails, Validation",
+    "tags": "rails, html, javascript",
+    "date": "2021-03-28 23:29:00 +0700",
+    "content": "By HTML5 and Javascript  eg, a submit form Using setCustomValidity function by default js and oninput=&quot;checkPasscode(); , required on input field.  &amp;lt;form&amp;gt;   &amp;lt;label for=&quot;passcode&quot;&amp;gt;Enter ..."
+  },
+  {
+    "title": "Things after install ubuntu 20.04 for developer",
+    "url": "/posts/things-after-install-ubuntu-2004-for-developer/",
+    "categories": "Operation, Ubuntu",
+    "tags": "ubuntu, ubuntu20.04, setup",
+    "date": "2021-03-27 00:00:00 +0700",
+    "content": "First step  Here is download file of the install scrip  For a quick setup, I recommend that you create a file called install.sh and run the following command every time you install:  chmod a+x ./in..."
+  },
+  {
+    "title": "Cài đặt môi trường Ruby on Rails trên ubuntu 20.04",
+    "url": "/posts/cai-dat-moi-truong-ruby-on-rails-tren-ubuntu/",
+    "categories": "Framework, Rails",
+    "tags": "rails, git, postgresql, mysql",
+    "date": "2021-03-22 00:00:00 +0700",
+    "content": "Cài đặt môi trường Ruby on Rails trên ubuntu  Cài đặt truyền thống Ruby  Để cài đặt môi trường code ruby trên ubuntu rất đơn giản vì mặc định ubuntu đã cài đặt sẵn ruby theo từng phiên bản của ubun..."
+  },
+  {
+    "title": "Bug thần thánh permission denied @ rb_sysopen",
+    "url": "/posts/bug-rails-gem-server-sysopen/",
+    "categories": "Framework, Rails, Bug",
+    "tags": "rails, bug, rvm",
+    "date": "2021-03-22 00:00:00 +0700",
+    "content": "Bug rack/server.rb:362:in initialize: Permission denied @ rb_sysopen  (Errno::EACCES) phiên bản sử dụng là rvm Try first update gem owner sudo chown -R userowner:yourgroup ~/.rvm  Update permission..."
+  },
+  {
+    "title": "Tạo Rails API với Grape",
+    "url": "/posts/Tao-rails-api-voi-grape/",
+    "categories": "Framework, Rails, api, grape",
+    "tags": "rails, api, grape",
+    "date": "2021-03-22 00:00:00 +0700",
+    "content": "Trong việc module hóa cũng như tạo cấu trúc REST API bạn có thể tự tạo cho mình một framework riêng hoặc sử dụng một framework đã có và đang được phát triển và ưa dùng là grape. tham khảo tại đây G..."
+  },
+  {
+    "title": "Tạo Blog đơn giản với Github và Jekyll",
+    "url": "/posts/tao-blog-don-gian-voi-jekyll/",
+    "categories": "Blogging, Tutorial, Github",
+    "tags": "github, jekyll",
+    "date": "2021-03-20 00:00:00 +0700",
+    "content": "Xây dựng Blog cá nhân với Github và Jekyll Đầu tiên nếu đối với mỗi ai trong chúng ta có niềm yêu thích muốn xây dựng cho mình một blog, blog đó là nơi để chia sẻ những kinh nghiệm đời sống và công..."
+  },
+  {
+    "title": "Enable Google Page Views",
+    "url": "/posts/enable-google-pv/",
+    "categories": "Blogging, Tutorial",
+    "tags": "google analytics, pageviews",
+    "date": "2021-01-04 06:32:00 +0700",
+    "content": "This post is to enable Page Views on the Chirpy theme based blog that you just built. This requires technical knowledge and it’s recommended to keep the google_analytics.pv.* empty unless you have ..."
+  },
+  {
+    "title": "Customize the Favicon",
+    "url": "/posts/customize-the-favicon/",
+    "categories": "Blogging, Tutorial",
+    "tags": "favicon",
+    "date": "2019-08-10 23:34:00 +0700",
+    "content": "The favicons of Chirpy are placed in the directory assets/img/favicons/. You may want to replace them with your own. The following sections will guide you to create and replace the default favicons..."
+  },
+  {
+    "title": "Getting Started",
+    "url": "/posts/getting-started/",
+    "categories": "Blogging, Tutorial",
+    "tags": "getting started",
+    "date": "2019-08-09 19:55:00 +0700",
+    "content": "Prerequisites  Follow the instructions in the Jekyll Docs to complete the installation of the basic environment. Git also needs to be installed.  Installation  Creating a New Site  There are two wa..."
+  },
+  {
+    "title": "Writing a New Post",
+    "url": "/posts/write-a-new-post/",
+    "categories": "Blogging, Tutorial",
+    "tags": "writing",
+    "date": "2019-08-08 13:10:00 +0700",
+    "content": "This tutorial will guide you how to write a post in the Chirpy template, and it’s worth reading even if you’ve used Jekyll before, as many features require specific variables to be set.  Naming and..."
+  },
+  {
+    "title": "Text and Typography",
+    "url": "/posts/text-and-typography/",
+    "categories": "Blogging, Demo",
+    "tags": "typography",
+    "date": "2019-08-08 10:33:00 +0700",
+    "content": "This post is to show Markdown syntax rendering on Chirpy, you can also use it as an example of writing. Now, let’s start looking at text and typography.  Headings  H1 - heading  H2 - heading  H3 - ..."
+  }
+  
+]
+

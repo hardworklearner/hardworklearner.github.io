@@ -1,0 +1,10161 @@
+<!doctype html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- `site.alt_lang` can specify a language different from the UI -->
+<html lang="en-US" >
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta
+    name="viewport"
+    content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover"
+  ><!-- Setup Open Graph image -->
+
+  
+
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="AWS Security &amp; Encryption" />
+<meta name="author" content="Hardwork đẹp trai" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="AWS Security &amp; Encryption KMS, Encryption SDK, SSM Parameter Store Why encryption? Encryptio in flight (SSL) Data is encrypted before sennding and decrypted after receiving SSL certtificatts help with enccryptionnn (HTTPS) Encryption in flight ensure no MITM (ma in tthe middle attack) can happen Why enryption? Server side encryption at rest Data is encrytion after being received by the server Data is decryted before beinng sent It is stored in an encryted form thanks to a key (usually a data key) The enncryption / decryption keys must be managed somewhere and the server must have access to it Why encryption? Client side encryption Data is encrypted by the client and never decrypted by server Data will be decrypted by a receivinng client The server should not be able to decrypt the data Cloud leverage Envelope Encryption AWS KMS (Key Management Service) Anytime you hhear “enncryption” for an AWS service, it’s most likely KMS Easy way to control access to your data, AWS manages keys for us Fully integrated with IAM for authorizationn Seamlessly integrated into Amazon EBS: encrypt volumes Amazon S3: Server side ecryption of objects Amazon Redshift: enryption of data Amazon RDS: encryption of data Amazon SSM: Parameter store Etc… But you can also use CLI/SDK KMS - Customer master Key (CMK) Types Symmetric (AES-256 keys) First offering of KMS, single encryption key that is used to encrypt and Decrypt AWS Services that are integrated with KMS use Symetric CMKs Necessary for envelope encryption You never get acccess to the Key unenncrypted (must call KMS API to use) Asymmetricc (RSA &amp; ECCC kkey pairs) Publicc (Ecrypt) and Private key (Decrypt) pair Used for Ennccrypt/DEryptt, Or Sign ? Verify operattions The publicc key is downloadable, but you cann’t access tthe Private Key unencrypted Use case: enncryption outside of AWS bu users who can’t call the KMS API AWS KMS (Key Mmanagement Service) Able to fully manage the keys &amp; policies Create Rotation policies Disable Enable Able to audit key usage (using CloudTrail) Three types of customer master keys (CMK): AWS managed servicce default CMK: free User keys created in KMS: $1 / month User keys imported (must be 256 bit sysmetric key): $1 / month pay for API call to KMS ($0.03 / 1000 calls) AWS KMS 101 Anytime you need to share sensitive information… use KMS Database passwords Credenttials to external service Private key of SSL certificattes The value in KMS is that the CMK can be rotated for extra security Never ever store your secrets in plaintext, especially in your code! Encrypted secrets can be stored in the code / environment variables KMS can only help inn ecrypting up to 4KB of data per call if data &gt; 4KB, use envelope enncryption To give access to KMS to someone: Make sure the Key policy allows the user Make sure the IAM Policy allows the API calls Copy Snapshots across regions Create a snapshott, encrypted with your ownn CMK Attach a KMS Key policy tto authorize cross-account access Share the ecrypted snapshott (in target) Create a copy of the snapshot, encrypt itt withh a KMS Key in your account Create a volume from the snapshot 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 { &quot;Sid&quot;: &quot;Allow use of the key with destination account&quot;, &quot;Effectt&quot;: &quot;Allow&quot;, &quot;Principal&quot;: { &quot;AWS&quot;: &quot;arn:aws:iam:TARGET_GROUP_ID:role/ROLENAME&quot; }, &quot;Action&quot;: [ &quot;kms:Decrypted&quot;, &quot;kms:CreateGrant&quot; ], &quot;Resource&quot;: &quot;*&quot;, &quot;Conditio&quot;: { &quot;StringEquals&quot;: { &quot;kms:ViaService&quot;: &quot;ec2.REGION.amazonaws.com&quot;, &quot;kms:CallerAccount&quot;: &quot;TARGET-ACCOUNT-ID&quot; } } } KMS Automatic Key Rotation For customer-managed CMK (not AWS managed CMK) If enabled: automatic key rotation happens every 1 year Previous key is kept active so you cann descrypt old data new key has the same CMK ID (only the backinng key is changed) KMS Manual Key Rotation When you want to rotate key every 90 days, 180 days, etc… New Key has a different CMK ID Keep the previous kkey active so you can decrypt old data Better to use aliases in this case (to hide the change of key for the application) Good soluttion to rotate CMK that are not eligible for automatic rotation (like asymmetric CMK) KMS Alias Updating Better to use aliases in this case (to hide the change of key for the application) SSM Parameter Store Secure storage for configuration and secrets Optional seamless encryption using KMS Serverless, scalable, durable, easy SDK Version tracking of configurations / secrets Configuration management using path &amp; IAM Notifications with CloudWatch Events Integrattion with CloudFormattion SSM Parameter Store Hierachy Standard and advanced parameter tiers Parameters Policies (for advanncced parameters) Allow to assign a TTL to a parameter (expiration date) to force updating or deleting sensitive data such as passwords Can assign multiple policies at a time AWS Secrets Manager Newer service, meant for storing secrets Capabilitty to force rottation of secrets every X days Automate generation of secrets on rotation (use Lambda) Integration with Amazon RDS (MYSQL, PostgreSQL, Aurora) Secrets and encrypted using KMS Mostly meant for RDS integration AWS Shield AWS Shield Standard Free Service That is activated for every AWS customer Provides protection from attacks such as SYN/UDP Floods, Reflecttion attackks and other layer 3/layer 4 attacks AWS Shield Advanced Opttional DDOS mitigation service ($3000 per month per organization) Protec against more sophisticated attack on Amazon Ec2, Elastic Load Balanncing (ELB), Amazon CloudFrontt, AWS Global Accelerator, and Route 53 24/7 access to AWS DDoS response team (DRP) Protect against higher fees during usage spikes due to DDoS CloudHSM KMS =&gt; AWS manages the software for encryption CloudHSM =&gt; AWS provisions encryption hardware Dedicated Hardware (HSM = Hardware Security Module) You manage your ownn encryption keys entirely (not AWS) Supports both symmetric and asymmetric encryptionn (SSL/TLS keys) No free tier available Must use the CloudHSM Client Software Redshift supports CloudHSM for database encryption and key managementt Good option to use with SSE-C encryption CloudHSM Diagram IAM permissions CRUD an HSM Cluster CloudHSM Software Manage the keys Manage the users CloudHSM - High Availability CloudHSM clustters are spread accrooss multi AZ (HA) Greate for availability and durability AWS WAF – Web Application Firewall Protects your web applications fromm common web exploits (layer 7) Layer 7 is HTTTP (vs Layer 4 is TCP) Deploy on Application Load Balancer, API Gateway, CloudFront Define Web ACL (Web Access Control List): Rules can include: IP addresses, HTTP headers, HTTP body, or URI strings Protects from common attack - SQL injection and cross-site scripting (XSS) Size constraints, geo-match (block countries) Rate-based rules (to count occurrences of events) - for DDos protection AWS Firewall Manager Manage rules in all accounts of an AWS Organization Common set of security rules WAF rules (Application Load Balancer, API Gateways, CLoudFront) AWS Shield Advanced (ALB, CLB, Elastic IP, CloudFront) Securrity Groups for EC2 and ENI resources in VPC Sample Referennces Arcchitecture for DDos Protection Amazon GuardDuty Intelligent Threat discovery to Protect AWS Account Uses Machine Learning algorithhms, anomaly detection, 3rd party data One click to enable (30 days trials), no need to install software Input data includes: CloudTrail Events Logs - unusual API calls, unauthorized deployments CloudTrail Management Events - create VPC subnet, create trail,… CloudTrail S3 Data events - get object, list object, delete object, … VPC Flow logs - unusual internal traffic, unusual IP address DNS Logs - conpromised EC2 instaces sending encoded data within DNS queries Kubernetes Audit Logs - suspicious activities and potential EKS cluster compromises Can setup CloudWatch Event rules to be notified in case of findings CloudWatch events rules can target AWS Lambda or SNS Can protect against CryptoCurrency attacks (has a dedicated “finding” for it) Amazon Inspector Automated Security Assessments For EC2 instances Leveraging the AWS Systtem Manager (SSM) agent Analyze againstt unintended network accessibility Analyze the running OS against know vulnerabilities For Containers push to Amazon ECR Assessment of containers as they are pushed Reporting &amp; integration with AWS Security Hub Send finding to Amazon Event Bridge What does AWS Inspector evaluate? Remember: only for EC2 instances and container infrastructure Continuous scanning of the infrastructure, only when needed Package vulnerabilities (EC2 &amp; ECR) - database of CVE Network reachabilitty (EC2) A risk score is associated with all vulnnerabilities for prioritization Amazon Macie Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS Macie helps identify and alert you to sensitive data, such as personally identifiable information (PII) AWS Shared Responsibility Model AWS responsibility - security of the cloud protecting infrastructure (hardware, software, facibilities, and networking), that runs all the AWS services Managed service like S3, DynamoDB, RDS, etc Customer responsibilities - security in the cloud For EC2 instance, customerr is reponsible for managememnt of the guest OS (including security patches and updates), firewall &amp; network configuration, IAM Shared controls Patch Management, Configurationn Management, Awareness &amp; Training Example, for RDS AWS responsibility Manage the underlying EC2 instance, disable SSH access Automated DB patching Automated OS patching After the underlying instance and disks &amp; guarantee it functions Your responsibility Check the ports / IP / security group inbound rules in DB’s SG In-database user creation and permissions Creating a database with or without public access Ensure parameter groups or DB is configured to only allow SSL connectionns Database encryptionn setting Example, for S3 AWS responsibility Guarantee you get unnlimited storage Guarantee you get encryption Ensure separation of the data between different customers Ensure AWS employees can’t access your data Your responsibility Bucket configuration Bucket policy / public setting IAM user and roles Enabling encryption Example, for RDS AWS responsibility Manage the underlying EC2 instance, disable SSH access Automated DB patching Automated OS patching Audit the underlying instance anndn disk &amp; guaranntee it functionn Your responsibility Check the ports / IP / security group innbound rules in DB’s SG In-database user creation and permission Creating a database with or without public access Ensure parameter groups or DB is configured to allow SSL connections Database encryption setting AWS Shared Responsibility Model AWS responsibility - Security of the cloud Protect infrastructure (hardware, software, facibilities, and networking) that runs all the AWS services Managed services like S3, DynamoDB, RDS, etc. Customer responsibility - Security in the Cloud For Ec2 instance, customer is responsibe for management of the guest OS (including security patched and updates), firewall &amp; protect network configurationn, IAM Shared controls Patch Management, Configuration Management, Awareness &amp; Training" />
+<meta property="og:description" content="AWS Security &amp; Encryption KMS, Encryption SDK, SSM Parameter Store Why encryption? Encryptio in flight (SSL) Data is encrypted before sennding and decrypted after receiving SSL certtificatts help with enccryptionnn (HTTPS) Encryption in flight ensure no MITM (ma in tthe middle attack) can happen Why enryption? Server side encryption at rest Data is encrytion after being received by the server Data is decryted before beinng sent It is stored in an encryted form thanks to a key (usually a data key) The enncryption / decryption keys must be managed somewhere and the server must have access to it Why encryption? Client side encryption Data is encrypted by the client and never decrypted by server Data will be decrypted by a receivinng client The server should not be able to decrypt the data Cloud leverage Envelope Encryption AWS KMS (Key Management Service) Anytime you hhear “enncryption” for an AWS service, it’s most likely KMS Easy way to control access to your data, AWS manages keys for us Fully integrated with IAM for authorizationn Seamlessly integrated into Amazon EBS: encrypt volumes Amazon S3: Server side ecryption of objects Amazon Redshift: enryption of data Amazon RDS: encryption of data Amazon SSM: Parameter store Etc… But you can also use CLI/SDK KMS - Customer master Key (CMK) Types Symmetric (AES-256 keys) First offering of KMS, single encryption key that is used to encrypt and Decrypt AWS Services that are integrated with KMS use Symetric CMKs Necessary for envelope encryption You never get acccess to the Key unenncrypted (must call KMS API to use) Asymmetricc (RSA &amp; ECCC kkey pairs) Publicc (Ecrypt) and Private key (Decrypt) pair Used for Ennccrypt/DEryptt, Or Sign ? Verify operattions The publicc key is downloadable, but you cann’t access tthe Private Key unencrypted Use case: enncryption outside of AWS bu users who can’t call the KMS API AWS KMS (Key Mmanagement Service) Able to fully manage the keys &amp; policies Create Rotation policies Disable Enable Able to audit key usage (using CloudTrail) Three types of customer master keys (CMK): AWS managed servicce default CMK: free User keys created in KMS: $1 / month User keys imported (must be 256 bit sysmetric key): $1 / month pay for API call to KMS ($0.03 / 1000 calls) AWS KMS 101 Anytime you need to share sensitive information… use KMS Database passwords Credenttials to external service Private key of SSL certificattes The value in KMS is that the CMK can be rotated for extra security Never ever store your secrets in plaintext, especially in your code! Encrypted secrets can be stored in the code / environment variables KMS can only help inn ecrypting up to 4KB of data per call if data &gt; 4KB, use envelope enncryption To give access to KMS to someone: Make sure the Key policy allows the user Make sure the IAM Policy allows the API calls Copy Snapshots across regions Create a snapshott, encrypted with your ownn CMK Attach a KMS Key policy tto authorize cross-account access Share the ecrypted snapshott (in target) Create a copy of the snapshot, encrypt itt withh a KMS Key in your account Create a volume from the snapshot 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 { &quot;Sid&quot;: &quot;Allow use of the key with destination account&quot;, &quot;Effectt&quot;: &quot;Allow&quot;, &quot;Principal&quot;: { &quot;AWS&quot;: &quot;arn:aws:iam:TARGET_GROUP_ID:role/ROLENAME&quot; }, &quot;Action&quot;: [ &quot;kms:Decrypted&quot;, &quot;kms:CreateGrant&quot; ], &quot;Resource&quot;: &quot;*&quot;, &quot;Conditio&quot;: { &quot;StringEquals&quot;: { &quot;kms:ViaService&quot;: &quot;ec2.REGION.amazonaws.com&quot;, &quot;kms:CallerAccount&quot;: &quot;TARGET-ACCOUNT-ID&quot; } } } KMS Automatic Key Rotation For customer-managed CMK (not AWS managed CMK) If enabled: automatic key rotation happens every 1 year Previous key is kept active so you cann descrypt old data new key has the same CMK ID (only the backinng key is changed) KMS Manual Key Rotation When you want to rotate key every 90 days, 180 days, etc… New Key has a different CMK ID Keep the previous kkey active so you can decrypt old data Better to use aliases in this case (to hide the change of key for the application) Good soluttion to rotate CMK that are not eligible for automatic rotation (like asymmetric CMK) KMS Alias Updating Better to use aliases in this case (to hide the change of key for the application) SSM Parameter Store Secure storage for configuration and secrets Optional seamless encryption using KMS Serverless, scalable, durable, easy SDK Version tracking of configurations / secrets Configuration management using path &amp; IAM Notifications with CloudWatch Events Integrattion with CloudFormattion SSM Parameter Store Hierachy Standard and advanced parameter tiers Parameters Policies (for advanncced parameters) Allow to assign a TTL to a parameter (expiration date) to force updating or deleting sensitive data such as passwords Can assign multiple policies at a time AWS Secrets Manager Newer service, meant for storing secrets Capabilitty to force rottation of secrets every X days Automate generation of secrets on rotation (use Lambda) Integration with Amazon RDS (MYSQL, PostgreSQL, Aurora) Secrets and encrypted using KMS Mostly meant for RDS integration AWS Shield AWS Shield Standard Free Service That is activated for every AWS customer Provides protection from attacks such as SYN/UDP Floods, Reflecttion attackks and other layer 3/layer 4 attacks AWS Shield Advanced Opttional DDOS mitigation service ($3000 per month per organization) Protec against more sophisticated attack on Amazon Ec2, Elastic Load Balanncing (ELB), Amazon CloudFrontt, AWS Global Accelerator, and Route 53 24/7 access to AWS DDoS response team (DRP) Protect against higher fees during usage spikes due to DDoS CloudHSM KMS =&gt; AWS manages the software for encryption CloudHSM =&gt; AWS provisions encryption hardware Dedicated Hardware (HSM = Hardware Security Module) You manage your ownn encryption keys entirely (not AWS) Supports both symmetric and asymmetric encryptionn (SSL/TLS keys) No free tier available Must use the CloudHSM Client Software Redshift supports CloudHSM for database encryption and key managementt Good option to use with SSE-C encryption CloudHSM Diagram IAM permissions CRUD an HSM Cluster CloudHSM Software Manage the keys Manage the users CloudHSM - High Availability CloudHSM clustters are spread accrooss multi AZ (HA) Greate for availability and durability AWS WAF – Web Application Firewall Protects your web applications fromm common web exploits (layer 7) Layer 7 is HTTTP (vs Layer 4 is TCP) Deploy on Application Load Balancer, API Gateway, CloudFront Define Web ACL (Web Access Control List): Rules can include: IP addresses, HTTP headers, HTTP body, or URI strings Protects from common attack - SQL injection and cross-site scripting (XSS) Size constraints, geo-match (block countries) Rate-based rules (to count occurrences of events) - for DDos protection AWS Firewall Manager Manage rules in all accounts of an AWS Organization Common set of security rules WAF rules (Application Load Balancer, API Gateways, CLoudFront) AWS Shield Advanced (ALB, CLB, Elastic IP, CloudFront) Securrity Groups for EC2 and ENI resources in VPC Sample Referennces Arcchitecture for DDos Protection Amazon GuardDuty Intelligent Threat discovery to Protect AWS Account Uses Machine Learning algorithhms, anomaly detection, 3rd party data One click to enable (30 days trials), no need to install software Input data includes: CloudTrail Events Logs - unusual API calls, unauthorized deployments CloudTrail Management Events - create VPC subnet, create trail,… CloudTrail S3 Data events - get object, list object, delete object, … VPC Flow logs - unusual internal traffic, unusual IP address DNS Logs - conpromised EC2 instaces sending encoded data within DNS queries Kubernetes Audit Logs - suspicious activities and potential EKS cluster compromises Can setup CloudWatch Event rules to be notified in case of findings CloudWatch events rules can target AWS Lambda or SNS Can protect against CryptoCurrency attacks (has a dedicated “finding” for it) Amazon Inspector Automated Security Assessments For EC2 instances Leveraging the AWS Systtem Manager (SSM) agent Analyze againstt unintended network accessibility Analyze the running OS against know vulnerabilities For Containers push to Amazon ECR Assessment of containers as they are pushed Reporting &amp; integration with AWS Security Hub Send finding to Amazon Event Bridge What does AWS Inspector evaluate? Remember: only for EC2 instances and container infrastructure Continuous scanning of the infrastructure, only when needed Package vulnerabilities (EC2 &amp; ECR) - database of CVE Network reachabilitty (EC2) A risk score is associated with all vulnnerabilities for prioritization Amazon Macie Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS Macie helps identify and alert you to sensitive data, such as personally identifiable information (PII) AWS Shared Responsibility Model AWS responsibility - security of the cloud protecting infrastructure (hardware, software, facibilities, and networking), that runs all the AWS services Managed service like S3, DynamoDB, RDS, etc Customer responsibilities - security in the cloud For EC2 instance, customerr is reponsible for managememnt of the guest OS (including security patches and updates), firewall &amp; network configuration, IAM Shared controls Patch Management, Configurationn Management, Awareness &amp; Training Example, for RDS AWS responsibility Manage the underlying EC2 instance, disable SSH access Automated DB patching Automated OS patching After the underlying instance and disks &amp; guarantee it functions Your responsibility Check the ports / IP / security group inbound rules in DB’s SG In-database user creation and permissions Creating a database with or without public access Ensure parameter groups or DB is configured to only allow SSL connectionns Database encryptionn setting Example, for S3 AWS responsibility Guarantee you get unnlimited storage Guarantee you get encryption Ensure separation of the data between different customers Ensure AWS employees can’t access your data Your responsibility Bucket configuration Bucket policy / public setting IAM user and roles Enabling encryption Example, for RDS AWS responsibility Manage the underlying EC2 instance, disable SSH access Automated DB patching Automated OS patching Audit the underlying instance anndn disk &amp; guaranntee it functionn Your responsibility Check the ports / IP / security group innbound rules in DB’s SG In-database user creation and permission Creating a database with or without public access Ensure parameter groups or DB is configured to allow SSL connections Database encryption setting AWS Shared Responsibility Model AWS responsibility - Security of the cloud Protect infrastructure (hardware, software, facibilities, and networking) that runs all the AWS services Managed services like S3, DynamoDB, RDS, etc. Customer responsibility - Security in the Cloud For Ec2 instance, customer is responsibe for management of the guest OS (including security patched and updates), firewall &amp; protect network configurationn, IAM Shared controls Patch Management, Configuration Management, Awareness &amp; Training" />
+<link rel="canonical" href="http://localhost:4000/posts/aws-security-encryption/" />
+<meta property="og:url" content="http://localhost:4000/posts/aws-security-encryption/" />
+<meta property="og:site_name" content="Programmer From Zero To Mountaint" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-02-06T00:00:00+07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="AWS Security &amp; Encryption" />
+<meta name="twitter:site" content="@twitter_username" />
+<meta name="twitter:creator" content="@Hardwork đẹp trai" />
+<meta name="google-site-verification" content="google_meta_tag_verification" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Hardwork đẹp trai"},"dateModified":"2025-07-15T06:00:30+07:00","datePublished":"2024-02-06T00:00:00+07:00","description":"AWS Security &amp; Encryption KMS, Encryption SDK, SSM Parameter Store Why encryption? Encryptio in flight (SSL) Data is encrypted before sennding and decrypted after receiving SSL certtificatts help with enccryptionnn (HTTPS) Encryption in flight ensure no MITM (ma in tthe middle attack) can happen Why enryption? Server side encryption at rest Data is encrytion after being received by the server Data is decryted before beinng sent It is stored in an encryted form thanks to a key (usually a data key) The enncryption / decryption keys must be managed somewhere and the server must have access to it Why encryption? Client side encryption Data is encrypted by the client and never decrypted by server Data will be decrypted by a receivinng client The server should not be able to decrypt the data Cloud leverage Envelope Encryption AWS KMS (Key Management Service) Anytime you hhear “enncryption” for an AWS service, it’s most likely KMS Easy way to control access to your data, AWS manages keys for us Fully integrated with IAM for authorizationn Seamlessly integrated into Amazon EBS: encrypt volumes Amazon S3: Server side ecryption of objects Amazon Redshift: enryption of data Amazon RDS: encryption of data Amazon SSM: Parameter store Etc… But you can also use CLI/SDK KMS - Customer master Key (CMK) Types Symmetric (AES-256 keys) First offering of KMS, single encryption key that is used to encrypt and Decrypt AWS Services that are integrated with KMS use Symetric CMKs Necessary for envelope encryption You never get acccess to the Key unenncrypted (must call KMS API to use) Asymmetricc (RSA &amp; ECCC kkey pairs) Publicc (Ecrypt) and Private key (Decrypt) pair Used for Ennccrypt/DEryptt, Or Sign ? Verify operattions The publicc key is downloadable, but you cann’t access tthe Private Key unencrypted Use case: enncryption outside of AWS bu users who can’t call the KMS API AWS KMS (Key Mmanagement Service) Able to fully manage the keys &amp; policies Create Rotation policies Disable Enable Able to audit key usage (using CloudTrail) Three types of customer master keys (CMK): AWS managed servicce default CMK: free User keys created in KMS: $1 / month User keys imported (must be 256 bit sysmetric key): $1 / month pay for API call to KMS ($0.03 / 1000 calls) AWS KMS 101 Anytime you need to share sensitive information… use KMS Database passwords Credenttials to external service Private key of SSL certificattes The value in KMS is that the CMK can be rotated for extra security Never ever store your secrets in plaintext, especially in your code! Encrypted secrets can be stored in the code / environment variables KMS can only help inn ecrypting up to 4KB of data per call if data &gt; 4KB, use envelope enncryption To give access to KMS to someone: Make sure the Key policy allows the user Make sure the IAM Policy allows the API calls Copy Snapshots across regions Create a snapshott, encrypted with your ownn CMK Attach a KMS Key policy tto authorize cross-account access Share the ecrypted snapshott (in target) Create a copy of the snapshot, encrypt itt withh a KMS Key in your account Create a volume from the snapshot 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 { &quot;Sid&quot;: &quot;Allow use of the key with destination account&quot;, &quot;Effectt&quot;: &quot;Allow&quot;, &quot;Principal&quot;: { &quot;AWS&quot;: &quot;arn:aws:iam:TARGET_GROUP_ID:role/ROLENAME&quot; }, &quot;Action&quot;: [ &quot;kms:Decrypted&quot;, &quot;kms:CreateGrant&quot; ], &quot;Resource&quot;: &quot;*&quot;, &quot;Conditio&quot;: { &quot;StringEquals&quot;: { &quot;kms:ViaService&quot;: &quot;ec2.REGION.amazonaws.com&quot;, &quot;kms:CallerAccount&quot;: &quot;TARGET-ACCOUNT-ID&quot; } } } KMS Automatic Key Rotation For customer-managed CMK (not AWS managed CMK) If enabled: automatic key rotation happens every 1 year Previous key is kept active so you cann descrypt old data new key has the same CMK ID (only the backinng key is changed) KMS Manual Key Rotation When you want to rotate key every 90 days, 180 days, etc… New Key has a different CMK ID Keep the previous kkey active so you can decrypt old data Better to use aliases in this case (to hide the change of key for the application) Good soluttion to rotate CMK that are not eligible for automatic rotation (like asymmetric CMK) KMS Alias Updating Better to use aliases in this case (to hide the change of key for the application) SSM Parameter Store Secure storage for configuration and secrets Optional seamless encryption using KMS Serverless, scalable, durable, easy SDK Version tracking of configurations / secrets Configuration management using path &amp; IAM Notifications with CloudWatch Events Integrattion with CloudFormattion SSM Parameter Store Hierachy Standard and advanced parameter tiers Parameters Policies (for advanncced parameters) Allow to assign a TTL to a parameter (expiration date) to force updating or deleting sensitive data such as passwords Can assign multiple policies at a time AWS Secrets Manager Newer service, meant for storing secrets Capabilitty to force rottation of secrets every X days Automate generation of secrets on rotation (use Lambda) Integration with Amazon RDS (MYSQL, PostgreSQL, Aurora) Secrets and encrypted using KMS Mostly meant for RDS integration AWS Shield AWS Shield Standard Free Service That is activated for every AWS customer Provides protection from attacks such as SYN/UDP Floods, Reflecttion attackks and other layer 3/layer 4 attacks AWS Shield Advanced Opttional DDOS mitigation service ($3000 per month per organization) Protec against more sophisticated attack on Amazon Ec2, Elastic Load Balanncing (ELB), Amazon CloudFrontt, AWS Global Accelerator, and Route 53 24/7 access to AWS DDoS response team (DRP) Protect against higher fees during usage spikes due to DDoS CloudHSM KMS =&gt; AWS manages the software for encryption CloudHSM =&gt; AWS provisions encryption hardware Dedicated Hardware (HSM = Hardware Security Module) You manage your ownn encryption keys entirely (not AWS) Supports both symmetric and asymmetric encryptionn (SSL/TLS keys) No free tier available Must use the CloudHSM Client Software Redshift supports CloudHSM for database encryption and key managementt Good option to use with SSE-C encryption CloudHSM Diagram IAM permissions CRUD an HSM Cluster CloudHSM Software Manage the keys Manage the users CloudHSM - High Availability CloudHSM clustters are spread accrooss multi AZ (HA) Greate for availability and durability AWS WAF – Web Application Firewall Protects your web applications fromm common web exploits (layer 7) Layer 7 is HTTTP (vs Layer 4 is TCP) Deploy on Application Load Balancer, API Gateway, CloudFront Define Web ACL (Web Access Control List): Rules can include: IP addresses, HTTP headers, HTTP body, or URI strings Protects from common attack - SQL injection and cross-site scripting (XSS) Size constraints, geo-match (block countries) Rate-based rules (to count occurrences of events) - for DDos protection AWS Firewall Manager Manage rules in all accounts of an AWS Organization Common set of security rules WAF rules (Application Load Balancer, API Gateways, CLoudFront) AWS Shield Advanced (ALB, CLB, Elastic IP, CloudFront) Securrity Groups for EC2 and ENI resources in VPC Sample Referennces Arcchitecture for DDos Protection Amazon GuardDuty Intelligent Threat discovery to Protect AWS Account Uses Machine Learning algorithhms, anomaly detection, 3rd party data One click to enable (30 days trials), no need to install software Input data includes: CloudTrail Events Logs - unusual API calls, unauthorized deployments CloudTrail Management Events - create VPC subnet, create trail,… CloudTrail S3 Data events - get object, list object, delete object, … VPC Flow logs - unusual internal traffic, unusual IP address DNS Logs - conpromised EC2 instaces sending encoded data within DNS queries Kubernetes Audit Logs - suspicious activities and potential EKS cluster compromises Can setup CloudWatch Event rules to be notified in case of findings CloudWatch events rules can target AWS Lambda or SNS Can protect against CryptoCurrency attacks (has a dedicated “finding” for it) Amazon Inspector Automated Security Assessments For EC2 instances Leveraging the AWS Systtem Manager (SSM) agent Analyze againstt unintended network accessibility Analyze the running OS against know vulnerabilities For Containers push to Amazon ECR Assessment of containers as they are pushed Reporting &amp; integration with AWS Security Hub Send finding to Amazon Event Bridge What does AWS Inspector evaluate? Remember: only for EC2 instances and container infrastructure Continuous scanning of the infrastructure, only when needed Package vulnerabilities (EC2 &amp; ECR) - database of CVE Network reachabilitty (EC2) A risk score is associated with all vulnnerabilities for prioritization Amazon Macie Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS Macie helps identify and alert you to sensitive data, such as personally identifiable information (PII) AWS Shared Responsibility Model AWS responsibility - security of the cloud protecting infrastructure (hardware, software, facibilities, and networking), that runs all the AWS services Managed service like S3, DynamoDB, RDS, etc Customer responsibilities - security in the cloud For EC2 instance, customerr is reponsible for managememnt of the guest OS (including security patches and updates), firewall &amp; network configuration, IAM Shared controls Patch Management, Configurationn Management, Awareness &amp; Training Example, for RDS AWS responsibility Manage the underlying EC2 instance, disable SSH access Automated DB patching Automated OS patching After the underlying instance and disks &amp; guarantee it functions Your responsibility Check the ports / IP / security group inbound rules in DB’s SG In-database user creation and permissions Creating a database with or without public access Ensure parameter groups or DB is configured to only allow SSL connectionns Database encryptionn setting Example, for S3 AWS responsibility Guarantee you get unnlimited storage Guarantee you get encryption Ensure separation of the data between different customers Ensure AWS employees can’t access your data Your responsibility Bucket configuration Bucket policy / public setting IAM user and roles Enabling encryption Example, for RDS AWS responsibility Manage the underlying EC2 instance, disable SSH access Automated DB patching Automated OS patching Audit the underlying instance anndn disk &amp; guaranntee it functionn Your responsibility Check the ports / IP / security group innbound rules in DB’s SG In-database user creation and permission Creating a database with or without public access Ensure parameter groups or DB is configured to allow SSL connections Database encryption setting AWS Shared Responsibility Model AWS responsibility - Security of the cloud Protect infrastructure (hardware, software, facibilities, and networking) that runs all the AWS services Managed services like S3, DynamoDB, RDS, etc. Customer responsibility - Security in the Cloud For Ec2 instance, customer is responsibe for management of the guest OS (including security patched and updates), firewall &amp; protect network configurationn, IAM Shared controls Patch Management, Configuration Management, Awareness &amp; Training","headline":"AWS Security &amp; Encryption","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/posts/aws-security-encryption/"},"url":"http://localhost:4000/posts/aws-security-encryption/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <!-- PWA cache settings -->
+  <meta
+    name="pwa-cache"
+    content="true">
+
+  <title>AWS Security & Encryption | Programmer From Zero To Mountaint
+  </title>
+
+  <!--
+  The Favicons for Web, Android, Microsoft, and iOS (iPhone and iPad) Apps
+  Generated by: https://realfavicongenerator.net/
+-->
+
+
+
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png">
+
+  <link rel="manifest" href="/assets/img/favicons/site.webmanifest">
+
+<link rel="shortcut icon" href="/assets/img/favicons/favicon.ico">
+<meta name="apple-mobile-web-app-title" content="Programmer From Zero To Mountaint">
+<meta name="application-name" content="Programmer From Zero To Mountaint">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+
+
+  
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin>
+    
+      <link rel="preconnect" href="https://fonts.googleapis.com" >
+      <link rel="dns-prefetch" href="https://fonts.googleapis.com" >
+    
+      <link rel="preconnect" href="https://cdn.jsdelivr.net" >
+      <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" >
+    
+      <link rel="preconnect" href="https://polyfill.io" >
+      <link rel="dns-prefetch" href="https://polyfill.io" >
+    
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap">
+  
+
+  <!-- GA -->
+  
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="/assets/css/jekyll-theme-chirpy.css">
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.25.0/dist/tocbot.min.css">
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.min.css">
+  
+
+  
+    <!-- Manific Popup -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css">
+  
+
+  <!-- JavaScript -->
+
+  
+    <!-- Switch the mode between dark and light. -->
+
+<script type="text/javascript">
+  class ModeToggle {
+    static get MODE_KEY() {
+      return 'mode';
+    }
+    static get MODE_ATTR() {
+      return 'data-mode';
+    }
+    static get DARK_MODE() {
+      return 'dark';
+    }
+    static get LIGHT_MODE() {
+      return 'light';
+    }
+    static get ID() {
+      return 'mode-toggle';
+    }
+
+    constructor() {
+      if (this.hasMode) {
+        if (this.isDarkMode) {
+          if (!this.isSysDarkPrefer) {
+            this.setDark();
+          }
+        } else {
+          if (this.isSysDarkPrefer) {
+            this.setLight();
+          }
+        }
+      }
+
+      let self = this;
+
+      /* always follow the system prefers */
+      this.sysDarkPrefers.addEventListener('change', () => {
+        if (self.hasMode) {
+          if (self.isDarkMode) {
+            if (!self.isSysDarkPrefer) {
+              self.setDark();
+            }
+          } else {
+            if (self.isSysDarkPrefer) {
+              self.setLight();
+            }
+          }
+
+          self.clearMode();
+        }
+
+        self.notify();
+      });
+    } /* constructor() */
+
+    get sysDarkPrefers() {
+      return window.matchMedia('(prefers-color-scheme: dark)');
+    }
+
+    get isSysDarkPrefer() {
+      return this.sysDarkPrefers.matches;
+    }
+
+    get isDarkMode() {
+      return this.mode === ModeToggle.DARK_MODE;
+    }
+
+    get isLightMode() {
+      return this.mode === ModeToggle.LIGHT_MODE;
+    }
+
+    get hasMode() {
+      return this.mode != null;
+    }
+
+    get mode() {
+      return sessionStorage.getItem(ModeToggle.MODE_KEY);
+    }
+
+    /* get the current mode on screen */
+    get modeStatus() {
+      if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) {
+        return ModeToggle.DARK_MODE;
+      } else {
+        return ModeToggle.LIGHT_MODE;
+      }
+    }
+
+    setDark() {
+      document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE);
+    }
+
+    setLight() {
+      document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE);
+      sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE);
+    }
+
+    clearMode() {
+      document.documentElement.removeAttribute(ModeToggle.MODE_ATTR);
+      sessionStorage.removeItem(ModeToggle.MODE_KEY);
+    }
+
+    /* Notify another plugins that the theme mode has changed */
+    notify() {
+      window.postMessage(
+        {
+          direction: ModeToggle.ID,
+          message: this.modeStatus
+        },
+        '*'
+      );
+    }
+
+    flipMode() {
+      if (this.hasMode) {
+        if (this.isSysDarkPrefer) {
+          if (this.isLightMode) {
+            this.clearMode();
+          } else {
+            this.setLight();
+          }
+        } else {
+          if (this.isDarkMode) {
+            this.clearMode();
+          } else {
+            this.setDark();
+          }
+        }
+      } else {
+        if (this.isSysDarkPrefer) {
+          this.setLight();
+        } else {
+          this.setDark();
+        }
+      }
+
+      this.notify();
+    } /* flipMode() */
+  } /* ModeToggle */
+
+  const modeToggle = new ModeToggle();
+</script>
+
+  
+
+  <!-- A placeholder to allow defining custom metadata -->
+
+</head>
+
+
+  <body>
+    <!-- The Side Bar -->
+
+<aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end">
+  <header class="profile-wrapper">
+    <a href="/" id="avatar" class="rounded-circle"><img src="/assets/img/avatar.jpg" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a>
+
+    <h1 class="site-title">
+      <a href="/">Programmer From Zero To Mountaint</a>
+    </h1>
+    <p class="site-subtitle fst-italic mb-0">Programmer blog</p>
+  </header>
+  <!-- .profile-wrapper -->
+
+  <nav class="flex-column flex-grow-1 w-100 ps-0">
+    <ul class="nav">
+      <!-- home -->
+      <li class="nav-item">
+        <a href="/" class="nav-link">
+          <i class="fa-fw fas fa-home"></i>
+          <span>HOME</span>
+        </a>
+      </li>
+      <!-- the real tabs -->
+      
+        <li class="nav-item">
+          <a href="/categories/" class="nav-link">
+            <i class="fa-fw fas fa-stream"></i>
+            
+
+            <span>CATEGORIES</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+        <li class="nav-item">
+          <a href="/tags/" class="nav-link">
+            <i class="fa-fw fas fa-tags"></i>
+            
+
+            <span>TAGS</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+        <li class="nav-item">
+          <a href="/archives/" class="nav-link">
+            <i class="fa-fw fas fa-archive"></i>
+            
+
+            <span>ARCHIVES</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+        <li class="nav-item">
+          <a href="/about/" class="nav-link">
+            <i class="fa-fw fas fa-info-circle"></i>
+            
+
+            <span>ABOUT</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+        <li class="nav-item">
+          <a href="/portfoio/" class="nav-link">
+            <i class="fa-fw fas fa-paper-plane"></i>
+            
+
+            <span>PORTFOLIO</span>
+          </a>
+        </li>
+        <!-- .nav-item -->
+      
+    </ul>
+  </nav>
+
+  <div class="sidebar-bottom d-flex flex-wrap  align-items-center w-100">
+    
+      <button type="button" class="mode-toggle btn" aria-label="Switch Mode">
+        <i class="fas fa-adjust"></i>
+      </button>
+
+      
+        <span class="icon-border"></span>
+      
+    
+
+    
+      
+
+      
+        <a
+          href="https://github.com/hardworklearner"
+          aria-label="github"
+          
+
+          
+            target="_blank"
+            
+          
+
+          
+
+          
+            rel="noopener noreferrer"
+          
+        >
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="https://twitter.com/twitter_username"
+          aria-label="twitter"
+          
+
+          
+            target="_blank"
+            
+          
+
+          
+
+          
+            rel="noopener noreferrer"
+          
+        >
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="javascript:location.href = 'mailto:' + ['huybinh.ad','gmail.com'].join('@')"
+          aria-label="email"
+          
+
+          
+
+          
+
+          
+        >
+          <i class="fas fa-envelope"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="/feed.xml"
+          aria-label="rss"
+          
+
+          
+
+          
+
+          
+        >
+          <i class="fas fa-rss"></i>
+        </a>
+      
+    
+      
+
+      
+        <a
+          href="https://www.linkedin.com/in/hardwork-nguyen-75312a7b/"
+          aria-label="linkedin"
+          
+
+          
+            target="_blank"
+            
+          
+
+          
+
+          
+            rel="noopener noreferrer"
+          
+        >
+          <i class="fab fa-linkedin"></i>
+        </a>
+      
+    
+  </div>
+  <!-- .sidebar-bottom -->
+</aside>
+<!-- #sidebar -->
+
+
+    <div id="main-wrapper" class="d-flex justify-content-center">
+      <div class="container d-flex flex-column px-xxl-5">
+        <!-- The Top Bar -->
+
+<header id="topbar-wrapper" aria-label="Top Bar">
+  <div
+    id="topbar"
+    class="d-flex align-items-center justify-content-between px-lg-3 h-100"
+  >
+    <nav id="breadcrumb" aria-label="Breadcrumb">
+      
+
+      
+        
+          
+            <span>
+              <a href="/">Home</a>
+            </span>
+
+          
+        
+          
+        
+          
+            
+              <span>AWS Security & Encryption</span>
+            
+
+          
+        
+      
+    </nav>
+    <!-- endof #breadcrumb -->
+
+    <button type="button" id="sidebar-trigger" class="btn btn-link">
+      <i class="fas fa-bars fa-fw"></i>
+    </button>
+
+    <div id="topbar-title">
+      Post
+    </div>
+
+    <button type="button" id="search-trigger" class="btn btn-link">
+      <i class="fas fa-search fa-fw"></i>
+    </button>
+
+    <search class="align-items-center ms-3 ms-lg-0">
+      <i class="fas fa-search fa-fw"></i>
+      <input
+        class="form-control"
+        id="search-input"
+        type="search"
+        aria-label="search"
+        autocomplete="off"
+        placeholder="Search..."
+      >
+    </search>
+    <button type="button" class="btn btn-link text-decoration-none" id="search-cancel">Cancel</button>
+  </div>
+</header>
+
+
+        <div class="row flex-grow-1">
+          <main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            
+              <!-- Refactor the HTML structure -->
+
+
+
+<!--
+  In order to allow a wide table to scroll horizontally,
+  we suround the markdown table with `<div class="table-wrapper">` and `</div>`
+-->
+
+
+
+<!--
+  Fixed kramdown code highlight rendering:
+  https://github.com/penibelst/jekyll-compress-html/issues/101
+  https://github.com/penibelst/jekyll-compress-html/issues/71#issuecomment-188144901
+-->
+
+
+
+<!-- Change the icon of checkbox -->
+
+
+
+<!-- Handle images -->
+
+
+
+
+  
+  
+
+  
+    
+      
+      
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+    
+
+    
+    
+
+    
+
+    
+    
+
+    
+    
+    
+
+    
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+      
+
+      
+    
+
+    <!-- take out classes -->
+    
+
+    
+    
+
+    
+
+    
+      
+    
+
+    <!-- lazy-load images -->
+    
+
+    
+      <!-- make sure the `<img>` is wrapped by `<a>` -->
+      
+
+      
+        <!-- create the image wrapper -->
+        
+
+        
+        
+      
+    
+
+    <!-- combine -->
+    
+  
+
+  
+
+
+<!-- Add header for code snippets -->
+
+
+
+<!-- Create heading anchors -->
+
+
+
+
+
+  
+  
+
+  
+    
+    
+
+    
+      
+        
+        
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+      
+      
+
+      
+    
+
+    
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+
+
+
+
+<!-- return -->
+
+
+
+
+<article class="px-1">
+  <header>
+    <h1 data-toc-skip>AWS Security & Encryption</h1>
+
+    <div class="post-meta text-muted">
+      <!-- published date -->
+      <span>
+        Posted
+        <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1707152400"
+  data-df="ll"
+  
+    data-bs-toggle="tooltip" data-bs-placement="bottom"
+  
+>
+  Feb  6, 2024
+</time>
+
+      </span>
+
+      <!-- lastmod date -->
+      
+        <span>
+          Updated
+          <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1752534030"
+  data-df="ll"
+  
+    data-bs-toggle="tooltip" data-bs-placement="bottom"
+  
+>
+  Jul 14, 2025
+</time>
+
+        </span>
+      
+
+      
+
+      <div class="d-flex justify-content-between">
+        <!-- author(s) -->
+        <span>
+          
+
+          By
+
+          <em>
+            
+              <a href="https://twitter.com/username">Hardwork đẹp trai</a>
+            
+          </em>
+        </span>
+
+        <!-- read time -->
+        <!-- Calculate the post's reading time, and display the word count in tooltip -->
+
+
+
+<!-- words per minute -->
+
+
+
+
+
+
+
+
+
+
+<!-- return element -->
+<span
+  class="readtime"
+  data-bs-toggle="tooltip"
+  data-bs-placement="bottom"
+  title="1729 words"
+>
+  <em>9 min</em> read</span>
+
+      </div>
+      <!-- .d-flex -->
+    </div>
+    <!-- .post-meta -->
+  </header>
+
+  <div class="content">
+    <h1 id="aws-security--encryption">AWS Security &amp; Encryption</h1>
+<p>KMS, Encryption SDK, SSM Parameter Store</p>
+<h2 id="why-encryption-encryptio-in-flight-ssl"><span class="me-2">Why encryption? Encryptio in flight (SSL)</span><a href="#why-encryption-encryptio-in-flight-ssl" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+<ul>
+  <li>Data is encrypted before sennding and decrypted after receiving</li>
+  <li>SSL certtificatts help with enccryptionnn (HTTPS)</li>
+  <li>Encryption in flight ensure no MITM (ma in tthe middle attack) can happen
+<a href="https://data.terabox.com/thumbnail/b0dd90435970b8ae900fb9d8c676bd3c?fid=4401547290288-250528-28759741407165&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-LFq%2fGgT15rW67%2f%2fZZCw0HVkY%2fng%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=238576279749733351&amp;dp-callid=0&amp;time=1667624400&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/b0dd90435970b8ae900fb9d8c676bd3c?fid=4401547290288-250528-28759741407165&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-LFq%2fGgT15rW67%2f%2fZZCw0HVkY%2fng%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=238576279749733351&amp;dp-callid=0&amp;time=1667624400&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a>
+    <h2 id="why-enryption-server-side-encryption-at-rest"><span class="me-2">Why enryption? Server side encryption at rest</span><a href="#why-enryption-server-side-encryption-at-rest" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Data is encrytion after being received by the server</li>
+  <li>Data is decryted before beinng sent</li>
+  <li>It is stored in an encryted form thanks to a key (usually a data key)</li>
+  <li>The enncryption / decryption keys must be managed somewhere and the server must have access to it
+    <h2 id="why-encryption-client-side-encryption"><span class="me-2">Why encryption? Client side encryption</span><a href="#why-encryption-client-side-encryption" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Data is encrypted by the client and never decrypted by server</li>
+  <li>Data will be decrypted by a receivinng client</li>
+  <li>The server should not be able to decrypt the data</li>
+  <li>Cloud leverage Envelope Encryption
+    <h2 id="aws-kms-key-management-service"><span class="me-2">AWS KMS (Key Management Service)</span><a href="#aws-kms-key-management-service" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Anytime you hhear “enncryption” for an AWS service, it’s most likely KMS</li>
+  <li>Easy way to control access to your data, AWS manages keys for us</li>
+  <li>Fully integrated with IAM for authorizationn</li>
+  <li>Seamlessly integrated into
+    <ul>
+      <li>Amazon EBS: encrypt volumes</li>
+      <li>Amazon S3: Server side ecryption of objects</li>
+      <li>Amazon Redshift: enryption of data</li>
+      <li>Amazon RDS: encryption of data</li>
+      <li>Amazon SSM: Parameter store</li>
+      <li>Etc…</li>
+    </ul>
+  </li>
+  <li>But you can also use CLI/SDK
+    <h2 id="kms---customer-master-key-cmk-types"><span class="me-2">KMS - Customer master Key (CMK) Types</span><a href="#kms---customer-master-key-cmk-types" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Symmetric (AES-256 keys)
+    <ul>
+      <li>First offering of KMS, single encryption key that is used to encrypt and Decrypt</li>
+      <li>AWS Services that are integrated with KMS use Symetric CMKs</li>
+      <li>Necessary for envelope encryption</li>
+      <li>You never get acccess to the Key unenncrypted (must call KMS API to use)</li>
+    </ul>
+  </li>
+  <li>Asymmetricc (RSA &amp; ECCC kkey pairs)
+    <ul>
+      <li>Publicc (Ecrypt) and Private key (Decrypt) pair</li>
+      <li>Used for Ennccrypt/DEryptt, Or Sign ? Verify operattions</li>
+      <li>The publicc key is downloadable, but you cann’t access tthe Private Key unencrypted</li>
+      <li>Use case: enncryption outside of AWS bu users who can’t call the KMS API
+        <h2 id="aws-kms-key-mmanagement-service"><span class="me-2">AWS KMS (Key Mmanagement Service)</span><a href="#aws-kms-key-mmanagement-service" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+      </li>
+    </ul>
+  </li>
+  <li>Able to fully manage the keys &amp; policies
+    <ul>
+      <li>Create</li>
+      <li>Rotation policies</li>
+      <li>Disable</li>
+      <li>Enable</li>
+    </ul>
+  </li>
+  <li>Able to audit key usage (using CloudTrail)</li>
+  <li>Three types of customer master keys (CMK):
+    <ul>
+      <li>AWS managed servicce default CMK: free</li>
+      <li>User keys created in KMS: $1 / month</li>
+      <li>User keys imported (must be 256 bit sysmetric key): $1 / month</li>
+    </ul>
+  </li>
+  <li>pay for API call to KMS ($0.03 / 1000 calls)
+    <h2 id="aws-kms-101"><span class="me-2">AWS KMS 101</span><a href="#aws-kms-101" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Anytime you need to share sensitive information… use KMS
+    <ul>
+      <li>Database passwords</li>
+      <li>Credenttials to external service</li>
+      <li>Private key of SSL certificattes</li>
+    </ul>
+  </li>
+  <li>The value in KMS is that the CMK can be rotated for extra security</li>
+  <li>Never ever store your secrets in plaintext, especially in your code!</li>
+  <li>Encrypted secrets can be stored in the code / environment variables</li>
+  <li>KMS can only help inn ecrypting up to 4KB of data per call</li>
+  <li>if data &gt; 4KB, use envelope enncryption</li>
+  <li>To give access to KMS to someone:
+    <ul>
+      <li>Make sure the Key policy allows the user</li>
+      <li>Make sure the IAM Policy allows the API calls
+        <h2 id="copy-snapshots-across-regions"><span class="me-2">Copy Snapshots across regions</span><a href="#copy-snapshots-across-regions" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+        <ol>
+          <li>Create a snapshott, encrypted with your ownn CMK</li>
+          <li>Attach a KMS Key policy tto authorize cross-account access</li>
+          <li>Share the ecrypted snapshott</li>
+          <li>(in target) Create a copy of the snapshot, encrypt itt withh a KMS Key in your account</li>
+          <li>Create a volume from the snapshot
+            <div class="language-json highlighter-rouge"><div class="code-header">
+        <span data-label-text="JSON"><i class="fas fa-code fa-fw small"></i></span>
+      <button aria-label="copy" data-title-succeed="Copied!"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre></td><td class="rouge-code"><pre><span class="p">{</span><span class="w">
+  </span><span class="nl">"Sid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow use of the key with destination account"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Effectt"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Allow"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Principal"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"AWS"</span><span class="p">:</span><span class="w"> </span><span class="s2">"arn:aws:iam:TARGET_GROUP_ID:role/ROLENAME"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"Action"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"kms:Decrypted"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"kms:CreateGrant"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="nl">"Resource"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"Conditio"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"StringEquals"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+ </span><span class="nl">"kms:ViaService"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ec2.REGION.amazonaws.com"</span><span class="p">,</span><span class="w">
+ </span><span class="nl">"kms:CallerAccount"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TARGET-ACCOUNT-ID"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></pre></td></tr></tbody></table></code></div>            </div>
+            <h2 id="kms-automatic-key-rotation"><span class="me-2">KMS Automatic Key Rotation</span><a href="#kms-automatic-key-rotation" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+          </li>
+        </ol>
+      </li>
+    </ul>
+  </li>
+  <li>For customer-managed CMK (not AWS managed CMK)</li>
+  <li>If enabled: automatic key rotation happens every 1 year</li>
+  <li>Previous key is kept active so you cann descrypt old data</li>
+  <li>new key has the same CMK ID (only the backinng key is changed)
+    <h2 id="kms-manual-key-rotation"><span class="me-2">KMS Manual Key Rotation</span><a href="#kms-manual-key-rotation" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>When you want to rotate key every 90 days, 180 days, etc…</li>
+  <li>New Key has a different CMK ID</li>
+  <li>Keep the previous kkey active so you can decrypt old data</li>
+  <li>Better to use aliases in this case (to hide the change of key for the application)</li>
+  <li>Good soluttion to rotate CMK that are not eligible for automatic rotation (like asymmetric CMK)
+    <h2 id="kms-alias-updating"><span class="me-2">KMS Alias Updating</span><a href="#kms-alias-updating" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Better to use aliases in this case (to hide the change of key for the application)
+<a href="https://data.terabox.com/thumbnail/4a31a4db8a3e6ad5a9d973e527e57606?fid=4401547290288-250528-1014814747505767&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-usjDwbggOzH5IHm%2f7V%2bgmLmHoCs%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=264785212123478447&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/4a31a4db8a3e6ad5a9d973e527e57606?fid=4401547290288-250528-1014814747505767&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-usjDwbggOzH5IHm%2f7V%2bgmLmHoCs%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=264785212123478447&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a>
+    <h2 id="ssm-parameter-store"><span class="me-2">SSM Parameter Store</span><a href="#ssm-parameter-store" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Secure storage for configuration and secrets</li>
+  <li>Optional seamless encryption using KMS</li>
+  <li>Serverless, scalable, durable, easy SDK</li>
+  <li>Version tracking of configurations / secrets</li>
+  <li>Configuration management using path &amp; IAM</li>
+  <li>Notifications with CloudWatch Events</li>
+  <li>Integrattion with CloudFormattion
+<a href="https://data.terabox.com/thumbnail/9f3e2cfc7cb0c2dfef6d43d8109d2365?fid=4401547290288-250528-713708248828451&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-8reaxTpAOkSQZdai9dXlAr8fiJQ%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=264847403615743699&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/9f3e2cfc7cb0c2dfef6d43d8109d2365?fid=4401547290288-250528-713708248828451&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-8reaxTpAOkSQZdai9dXlAr8fiJQ%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=264847403615743699&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a>
+    <h2 id="ssm-parameter-store-hierachy"><span class="me-2">SSM Parameter Store Hierachy</span><a href="#ssm-parameter-store-hierachy" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+    <p><a href="https://data.terabox.com/thumbnail/cd1807a66854624dcee5a054a989c873?fid=4401547290288-250528-1081212062170183&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-kIjJzz5lWNnuVLzD1gcrmdT4I68%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=264892808723157001&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/cd1807a66854624dcee5a054a989c873?fid=4401547290288-250528-1081212062170183&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-kIjJzz5lWNnuVLzD1gcrmdT4I68%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=264892808723157001&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a></p>
+    <h2 id="standard-and-advanced-parameter-tiers"><span class="me-2">Standard and advanced parameter tiers</span><a href="#standard-and-advanced-parameter-tiers" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+    <p><a href="https://data.terabox.com/thumbnail/916a87d1a63dc985cb4d84dbddfc2c3f?fid=4401547290288-250528-505507997218030&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-VA1YYGPMxQaDgagBK1epNO96JEM%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=264928864932304067&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/916a87d1a63dc985cb4d84dbddfc2c3f?fid=4401547290288-250528-505507997218030&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-VA1YYGPMxQaDgagBK1epNO96JEM%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=264928864932304067&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a></p>
+    <h2 id="parameters-policies-for-advanncced-parameters"><span class="me-2">Parameters Policies (for advanncced parameters)</span><a href="#parameters-policies-for-advanncced-parameters" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Allow to assign a TTL to a parameter (expiration date) to force updating or deleting sensitive data such as passwords</li>
+  <li>Can assign multiple policies at a time
+    <h2 id="aws-secrets-manager"><span class="me-2">AWS Secrets Manager</span><a href="#aws-secrets-manager" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Newer service, meant for storing secrets</li>
+  <li>Capabilitty to force rottation of secrets every X days</li>
+  <li>Automate generation of secrets on rotation (use Lambda)</li>
+  <li>Integration with Amazon RDS (MYSQL, PostgreSQL, Aurora)</li>
+  <li>Secrets and encrypted using KMS</li>
+  <li>Mostly meant for RDS integration
+    <h2 id="aws-shield"><span class="me-2">AWS Shield</span><a href="#aws-shield" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>AWS Shield Standard
+    <ul>
+      <li>Free Service That is activated for every AWS customer</li>
+      <li>Provides protection from attacks such as SYN/UDP Floods, Reflecttion attackks and other layer 3/layer 4 attacks</li>
+    </ul>
+  </li>
+  <li>AWS Shield Advanced
+    <ul>
+      <li>Opttional DDOS mitigation service ($3000 per month per organization)</li>
+      <li>Protec against more sophisticated attack on Amazon Ec2, Elastic Load Balanncing (ELB), Amazon CloudFrontt, AWS Global Accelerator, and Route 53</li>
+      <li>24/7 access to AWS DDoS response team (DRP)</li>
+      <li>Protect against higher fees during usage spikes due to DDoS
+        <h2 id="cloudhsm"><span class="me-2">CloudHSM</span><a href="#cloudhsm" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+      </li>
+    </ul>
+  </li>
+  <li>KMS =&gt; AWS manages the software for encryption</li>
+  <li>CloudHSM =&gt; AWS provisions encryption hardware</li>
+  <li>Dedicated Hardware (HSM = Hardware Security Module)</li>
+  <li>You manage your ownn encryption keys entirely (not AWS)</li>
+  <li>Supports both symmetric and asymmetric encryptionn (SSL/TLS keys)</li>
+  <li>No free tier available</li>
+  <li>Must use the CloudHSM Client Software</li>
+  <li>Redshift supports CloudHSM for database encryption and key managementt</li>
+  <li>Good option to use with SSE-C encryption
+    <h2 id="cloudhsm-diagram"><span class="me-2">CloudHSM Diagram</span><a href="#cloudhsm-diagram" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>IAM permissions
+    <ul>
+      <li>CRUD an HSM Cluster</li>
+    </ul>
+  </li>
+  <li>CloudHSM Software
+    <ul>
+      <li>Manage the keys</li>
+      <li>Manage the users
+        <h2 id="cloudhsm---high-availability"><span class="me-2">CloudHSM - High Availability</span><a href="#cloudhsm---high-availability" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+      </li>
+    </ul>
+  </li>
+  <li>CloudHSM clustters are spread accrooss multi AZ (HA)</li>
+  <li>Greate for availability and durability
+<a href="https://data.terabox.com/thumbnail/f017d4720c89eb0398f8bc95e6bd1fa2?fid=4401547290288-250528-992858322776135&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-oCR5gWGaOdUkKPZl0pdsEL4o1%2bc%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=265241329089844534&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/f017d4720c89eb0398f8bc95e6bd1fa2?fid=4401547290288-250528-992858322776135&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-oCR5gWGaOdUkKPZl0pdsEL4o1%2bc%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=265241329089844534&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a>
+<a href="https://data.terabox.com/thumbnail/e1b45a8dc19847b36fac810374376b77?fid=4401547290288-250528-1053925012960649&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-UgdS9PXZLhTR6U6kc1wkTGX94gM%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=265261016086308792&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/e1b45a8dc19847b36fac810374376b77?fid=4401547290288-250528-1053925012960649&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-UgdS9PXZLhTR6U6kc1wkTGX94gM%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=265261016086308792&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a>
+    <h2 id="aws-waf--web-application-firewall"><span class="me-2">AWS WAF – Web Application Firewall</span><a href="#aws-waf--web-application-firewall" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Protects your web applications fromm common web exploits (layer 7)</li>
+  <li>Layer 7 is HTTTP (vs Layer 4 is TCP)</li>
+  <li>Deploy on Application Load Balancer, API Gateway, CloudFront</li>
+  <li>Define Web ACL (Web Access Control List):
+    <ul>
+      <li>Rules can include: IP addresses, HTTP headers, HTTP body, or URI strings</li>
+      <li>Protects from common attack - SQL injection and cross-site scripting (XSS)</li>
+      <li>Size constraints, geo-match (block countries)</li>
+      <li>Rate-based rules (to count occurrences of events) - for DDos protection
+        <h2 id="aws-firewall-manager"><span class="me-2">AWS Firewall Manager</span><a href="#aws-firewall-manager" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+      </li>
+    </ul>
+  </li>
+  <li>Manage rules in all accounts of an AWS Organization</li>
+  <li>Common set of security rules</li>
+  <li>WAF rules (Application Load Balancer, API Gateways, CLoudFront)</li>
+  <li>AWS Shield Advanced (ALB, CLB, Elastic IP, CloudFront)</li>
+  <li>Securrity Groups for EC2 and ENI resources in VPC
+    <h2 id="sample-referennces-arcchitecture-for-ddos-protection"><span class="me-2">Sample Referennces Arcchitecture for DDos Protection</span><a href="#sample-referennces-arcchitecture-for-ddos-protection" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+    <p><a href="https://data.terabox.com/thumbnail/95158ccc3426d79242d6a7aa5d402d5c?fid=4401547290288-250528-448296960201616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-YPYe4iJKfLdr0U4pMNMVJtFpsew%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=265420611162582701&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/95158ccc3426d79242d6a7aa5d402d5c?fid=4401547290288-250528-448296960201616&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-YPYe4iJKfLdr0U4pMNMVJtFpsew%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=265420611162582701&amp;dp-callid=0&amp;time=1667721600&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a></p>
+    <h2 id="amazon-guardduty"><span class="me-2">Amazon GuardDuty</span><a href="#amazon-guardduty" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Intelligent Threat discovery to Protect AWS Account</li>
+  <li>Uses Machine Learning algorithhms, anomaly detection, 3rd party data</li>
+  <li>One click to enable (30 days trials), no need to install software</li>
+  <li>Input data includes:
+    <ul>
+      <li>CloudTrail Events Logs - unusual API calls, unauthorized deployments
+        <ul>
+          <li>CloudTrail Management Events - create VPC subnet, create trail,…</li>
+          <li>CloudTrail S3 Data events - get object, list object, delete object, …</li>
+        </ul>
+      </li>
+      <li>VPC Flow logs - unusual internal traffic, unusual IP address</li>
+      <li>DNS Logs -   conpromised EC2 instaces sending encoded data within DNS queries</li>
+      <li>Kubernetes Audit Logs - suspicious activities and potential EKS cluster compromises</li>
+    </ul>
+  </li>
+  <li>Can setup CloudWatch Event rules to be notified in case of findings</li>
+  <li>CloudWatch events rules can target AWS Lambda or SNS</li>
+  <li>Can protect against  CryptoCurrency attacks (has a dedicated “finding” for it)
+<a href="https://data.terabox.com/thumbnail/606c8acdb580c2b5ae59aa516caf25da?fid=4401547290288-250528-287610579101915&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-xM%2b0hnOfudsrkAYePh0ztMf75w4%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=266060421699163233&amp;dp-callid=0&amp;time=1667725200&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/606c8acdb580c2b5ae59aa516caf25da?fid=4401547290288-250528-287610579101915&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-xM%2b0hnOfudsrkAYePh0ztMf75w4%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=266060421699163233&amp;dp-callid=0&amp;time=1667725200&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a>
+    <h2 id="amazon-inspector"><span class="me-2">Amazon Inspector</span><a href="#amazon-inspector" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Automated Security Assessments</li>
+  <li>For EC2 instances
+    <ul>
+      <li>Leveraging the AWS Systtem Manager (SSM) agent</li>
+      <li>Analyze againstt unintended network accessibility</li>
+      <li>Analyze the running OS against know vulnerabilities</li>
+    </ul>
+  </li>
+  <li>For Containers push to Amazon ECR
+    <ul>
+      <li>Assessment of containers as they are pushed</li>
+    </ul>
+  </li>
+  <li>Reporting &amp; integration with AWS Security Hub</li>
+  <li>Send finding to Amazon Event Bridge
+<a href="https://data.terabox.com/thumbnail/a30653828a54deedd435517882807c8e?fid=4401547290288-250528-509549621942364&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-qNK2yuYeyQd4yFRdKQI%2fz%2ffbWHw%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=266127523397078123&amp;dp-callid=0&amp;time=1667725200&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/a30653828a54deedd435517882807c8e?fid=4401547290288-250528-509549621942364&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-qNK2yuYeyQd4yFRdKQI%2fz%2ffbWHw%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=266127523397078123&amp;dp-callid=0&amp;time=1667725200&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a>
+    <h2 id="what-does-aws-inspector-evaluate"><span class="me-2">What does AWS Inspector evaluate?</span><a href="#what-does-aws-inspector-evaluate" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Remember: only for EC2 instances and container infrastructure</li>
+  <li>Continuous scanning of the infrastructure, only when needed</li>
+  <li>Package vulnerabilities (EC2 &amp; ECR) - database of CVE</li>
+  <li>Network reachabilitty (EC2)</li>
+  <li>A risk score is associated with all vulnnerabilities for prioritization
+    <h2 id="amazon-macie"><span class="me-2">Amazon Macie</span><a href="#amazon-macie" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>Amazon Macie is a fully managed data security and data privacy service that uses machine learning and pattern matching to discover and protect your sensitive data in AWS</li>
+  <li>Macie helps identify and alert you to sensitive data, such as personally identifiable information (PII)
+<a href="https://data.terabox.com/thumbnail/f61a274b3615c9efbac50ded984b188d?fid=4401547290288-250528-1054837386450811&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-Pmua2jT132BLbYWoTILr70yp4bk%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=266254827793710074&amp;dp-callid=0&amp;time=1667725200&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/f61a274b3615c9efbac50ded984b188d?fid=4401547290288-250528-1054837386450811&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-Pmua2jT132BLbYWoTILr70yp4bk%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=266254827793710074&amp;dp-callid=0&amp;time=1667725200&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a>
+    <h2 id="aws-shared-responsibility-model"><span class="me-2">AWS Shared Responsibility Model</span><a href="#aws-shared-responsibility-model" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+  </li>
+  <li>AWS responsibility - security of the cloud
+    <ul>
+      <li>protecting infrastructure (hardware, software, facibilities, and networking), that runs all the AWS services</li>
+      <li>Managed service like S3, DynamoDB, RDS, etc</li>
+    </ul>
+  </li>
+  <li>Customer responsibilities - security in the cloud
+    <ul>
+      <li>For EC2 instance, customerr is reponsible for managememnt of the guest OS (including security patches and updates), firewall &amp; network configuration, IAM</li>
+    </ul>
+  </li>
+  <li>Shared controls
+    <ul>
+      <li>Patch Management, Configurationn Management, Awareness &amp; Training
+        <h2 id="example-for-rds"><span class="me-2">Example, for RDS</span><a href="#example-for-rds" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+      </li>
+    </ul>
+  </li>
+  <li>AWS responsibility
+    <ul>
+      <li>Manage the underlying EC2 instance, disable SSH access</li>
+      <li>Automated DB patching</li>
+      <li>Automated OS patching</li>
+      <li>After the underlying instance and disks &amp; guarantee it functions</li>
+    </ul>
+  </li>
+  <li>Your responsibility
+    <ul>
+      <li>Check the ports / IP / security group inbound rules in DB’s SG</li>
+      <li>In-database user creation and permissions</li>
+      <li>Creating a database with or without public access</li>
+      <li>Ensure parameter groups or DB is configured to only allow SSL connectionns</li>
+      <li>Database encryptionn setting
+        <h2 id="example-for-s3"><span class="me-2">Example, for S3</span><a href="#example-for-s3" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+      </li>
+    </ul>
+  </li>
+  <li>AWS responsibility
+    <ul>
+      <li>Guarantee you get unnlimited storage</li>
+      <li>Guarantee you get encryption</li>
+      <li>Ensure separation of the data between different customers</li>
+      <li>Ensure AWS employees can’t access your data</li>
+    </ul>
+  </li>
+  <li>Your responsibility
+    <ul>
+      <li>Bucket configuration</li>
+      <li>Bucket policy / public setting</li>
+      <li>IAM user and roles</li>
+      <li>Enabling encryption
+        <h2 id="example-for-rds-1"><span class="me-2">Example, for RDS</span><a href="#example-for-rds-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+      </li>
+    </ul>
+  </li>
+  <li>AWS responsibility
+    <ul>
+      <li>Manage the underlying EC2 instance, disable SSH access</li>
+      <li>Automated DB patching</li>
+      <li>Automated OS patching</li>
+      <li>Audit the underlying instance anndn disk &amp; guaranntee it functionn</li>
+    </ul>
+  </li>
+  <li>Your responsibility
+    <ul>
+      <li>Check the ports / IP / security group innbound rules in DB’s SG</li>
+      <li>In-database user creation and permission</li>
+      <li>Creating a database with or without public access</li>
+      <li>Ensure parameter groups or DB is configured to allow SSL connections</li>
+      <li>Database encryption setting
+        <h2 id="aws-shared-responsibility-model-1"><span class="me-2">AWS Shared Responsibility Model</span><a href="#aws-shared-responsibility-model-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2>
+      </li>
+    </ul>
+  </li>
+  <li>AWS responsibility - Security of the cloud
+    <ul>
+      <li>Protect infrastructure (hardware, software, facibilities, and networking) that runs all the AWS services</li>
+      <li>Managed services like S3, DynamoDB, RDS, etc.</li>
+    </ul>
+  </li>
+  <li>Customer responsibility - Security in the Cloud
+    <ul>
+      <li>For Ec2 instance, customer is responsibe for management of the guest OS (including security patched and updates), firewall &amp; protect network configurationn, IAM</li>
+    </ul>
+  </li>
+  <li>Shared controls
+    <ul>
+      <li>Patch Management, Configuration Management, Awareness &amp; Training
+<a href="https://data.terabox.com/thumbnail/593c5e018036b5c28473614354f2ca3a?fid=4401547290288-250528-790786819018126&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-5P2Tiat0SwXK4R0rpxokxqkFRYY%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=266657189262800824&amp;dp-callid=0&amp;time=1667728800&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" class="popup img-link  shimmer"><img src="https://data.terabox.com/thumbnail/593c5e018036b5c28473614354f2ca3a?fid=4401547290288-250528-790786819018126&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-5P2Tiat0SwXK4R0rpxokxqkFRYY%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=266657189262800824&amp;dp-callid=0&amp;time=1667728800&amp;size=c1680_u1050&amp;quality=90&amp;vuk=4401547290288&amp;ft=image&amp;autopolicy=1" alt="" loading="lazy"></a></li>
+    </ul>
+  </li>
+</ul>
+
+  </div>
+
+  <div class="post-tail-wrapper text-muted">
+    <!-- categories -->
+    
+      <div class="post-meta mb-3">
+        <i class="far fa-folder-open fa-fw me-1"></i>
+        
+          <a href="/categories/fullstack/">Fullstack</a>,
+          <a href="/categories/architect/">Architect</a>,
+          <a href="/categories/aws/">AWS</a>
+      </div>
+    
+
+    <!-- tags -->
+    
+      <div class="post-tags">
+        <i class="fa fa-tags fa-fw me-1"></i>
+        
+          <a
+            href="/tags/aws/"
+            class="post-tag no-text-decoration"
+          >AWS</a>
+        
+          <a
+            href="/tags/ssl/"
+            class="post-tag no-text-decoration"
+          >SSL</a>
+        
+          <a
+            href="/tags/kms/"
+            class="post-tag no-text-decoration"
+          >KMS</a>
+        
+          <a
+            href="/tags/aws-kms/"
+            class="post-tag no-text-decoration"
+          >AWS KMS</a>
+        
+          <a
+            href="/tags/aws-shared-responsibility-model/"
+            class="post-tag no-text-decoration"
+          >AWS Shared Responsibility Model</a>
+        
+          <a
+            href="/tags/amazon-macie/"
+            class="post-tag no-text-decoration"
+          >Amazon Macie</a>
+        
+          <a
+            href="/tags/amazon-inspector/"
+            class="post-tag no-text-decoration"
+          >Amazon Inspector</a>
+        
+          <a
+            href="/tags/aws-secrets-manager/"
+            class="post-tag no-text-decoration"
+          >AWS Secrets Manager</a>
+        
+          <a
+            href="/tags/aws-shield/"
+            class="post-tag no-text-decoration"
+          >AWS Shield</a>
+        
+          <a
+            href="/tags/cloudhsm/"
+            class="post-tag no-text-decoration"
+          >CloudHSM</a>
+        
+          <a
+            href="/tags/aws-waf/"
+            class="post-tag no-text-decoration"
+          >AWS WAF</a>
+        
+          <a
+            href="/tags/aws-firewall-manager/"
+            class="post-tag no-text-decoration"
+          >AWS Firewall Manager</a>
+        
+          <a
+            href="/tags/amazon-guardduty/"
+            class="post-tag no-text-decoration"
+          >Amazon GuardDuty</a>
+        
+          <a
+            href="/tags/inspector/"
+            class="post-tag no-text-decoration"
+          >Inspector</a>
+        
+          <a
+            href="/tags/ssm/"
+            class="post-tag no-text-decoration"
+          >SSM</a>
+        
+      </div>
+    
+
+    <div
+      class="
+        post-tail-bottom
+        d-flex justify-content-between align-items-center mt-5 pb-2
+      "
+    >
+      <div class="license-wrapper">
+        
+          
+
+          This post is licensed under 
+        <a href="https://creativecommons.org/licenses/by/4.0/">
+          CC BY 4.0
+        </a>
+         by the author.
+        
+      </div>
+
+      <!-- Post sharing snippet -->
+
+<div class="share-wrapper d-flex align-items-center">
+  <span class="share-label text-muted">Share</span>
+  <span class="share-icons">
+    
+    
+    
+
+    
+
+      
+
+      <a href="https://twitter.com/AdHuybinh" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter">
+        <i class="fa-fw fab fa-twitter"></i>
+      </a>
+    
+
+      
+
+      <a href="https://www.facebook.com/alz.ailove" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook">
+        <i class="fa-fw fab fa-facebook-square"></i>
+      </a>
+    
+
+      
+
+      <a href="https://telegram.me/share?text=AWS%20Security%20&%20Encryption%20-%20Programmer%20From%20Zero%20To%20Mountaint&url=http%3A%2F%2Flocalhost%3A4000%2Fposts%2Faws-security-encryption%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram">
+        <i class="fa-fw fab fa-telegram"></i>
+      </a>
+    
+
+      
+
+      <a href="https://www.linkedin.com/in/hardwork-nguyen-75312a7b/" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Linkedin" aria-label="Linkedin">
+        <i class="fa-fw fab fa-linkedin"></i>
+      </a>
+    
+
+    <button
+      id="copy-link"
+      aria-label="Copy link"
+      class="btn small"
+      data-bs-toggle="tooltip"
+      data-bs-placement="top"
+      title="Copy link"
+      data-title-succeed="Link copied successfully!"
+    >
+      <i class="fa-fw fas fa-link pe-none fs-6"></i>
+    </button>
+  </span>
+</div>
+
+    </div>
+    <!-- .post-tail-bottom -->
+  </div>
+  <!-- div.post-tail-wrapper -->
+</article>
+
+
+            
+          </main>
+
+          <!-- panel -->
+          <aside aria-label="Panel" id="panel-wrapper" class="col-xl-3 ps-2 mb-5 text-muted">
+            <div class="access">
+              <!-- Get 5 last posted/updated posts -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <section id="access-lastmod">
+    <h2 class="panel-heading">Recently Updated</h2>
+    <ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2">
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/text-and-typography/">Text and Typography</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/write-a-new-post/">Writing a New Post</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/getting-started/">Getting Started</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/customize-the-favicon/">Customize the Favicon</a>
+        </li>
+      
+        
+        
+        
+        <li class="text-truncate lh-lg">
+          <a href="/posts/aws-question-and-answer-practice/">AWS Question and Answer Practice</a>
+        </li>
+      
+    </ul>
+  </section>
+  <!-- #access-lastmod -->
+
+
+              <!-- The trending tags list -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <section>
+    <h2 class="panel-heading">Trending Tags</h2>
+    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/aws/">aws</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/rails/">rails</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/api/">api</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/aws/">AWS</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/javascript/">javascript</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/ruby/">ruby</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/s3/">s3</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/architecture/">architecture</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/athena/">athena</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/aurora/">aurora</a>
+      
+    </div>
+  </section>
+
+
+            </div>
+
+            
+              
+              
+
+
+
+  <section id="toc-wrapper" class="ps-0 pe-4">
+    <h2 class="panel-heading ps-3 pt-2 mb-2">Contents</h2>
+    <nav id="toc"></nav>
+  </section>
+
+
+            
+          </aside>
+        </div>
+
+        <div class="row">
+          <!-- tail -->
+          <div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4">
+            
+              
+              <!-- Recommend the other 3 posts according to the tags and categories of the current post. -->
+
+<!-- The total size of related posts -->
+
+
+<!-- An random integer that bigger than 0 -->
+
+
+<!-- Equals to TAG_SCORE / {max_categories_hierarchy} -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  <aside id="related-posts" aria-labelledby="related-label">
+    <h3 class="mb-4" id="related-label">Further Reading</h3>
+    <nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
+      
+        <article class="col">
+          <a href="/posts/developing-on-aws/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1707152400"
+  data-df="ll"
+  
+>
+  Feb  6, 2024
+</time>
+
+              <h4 class="pt-0 my-2">Developing on AWS</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  Developing on AWS
+AWS EC2 Instance Metadata
+
+  AWS EC2 Instance Medata is powerful but one of the least known features to developers
+  It allows AWS EC2 instances to “learn about themselves” withou...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/advance-s3/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1707066000"
+  data-df="ll"
+  
+>
+  Feb  5, 2024
+</time>
+
+              <h4 class="pt-0 my-2">Advance S3</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  Advanced S3
+S3 MFA-Delete
+
+  MFA (multi factor authentication) forces user to generate a code on a device (ussually a mobile phone or hardware) before doing important operations on S3
+  To use MFA-...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+        <article class="col">
+          <a href="/posts/aws-virtual-private-cloud-overview-vpc-part-1/" class="post-preview card h-100">
+            <div class="card-body">
+              <!--
+  Date format snippet
+  See: ${JS_ROOT}/utils/locale-dateime.js
+-->
+
+
+
+
+<time
+  
+  data-ts="1707238800"
+  data-df="ll"
+  
+>
+  Feb  7, 2024
+</time>
+
+              <h4 class="pt-0 my-2">AWS Virtual Private Cloud Overview (VPC) part 1</h4>
+              <div class="text-muted">
+                <p>
+                  
+
+
+
+
+
+                  Virtual Private Cloud (VPC)
+Default VPC Walkthrough
+
+  All new AWS accounts have a default VPC
+  New EC2 instances are launched into the default VPC of no subnet is specified
+  Default VPC has Inte...
+                </p>
+              </div>
+            </div>
+          </a>
+        </article>
+      
+    </nav>
+  </aside>
+  <!-- #related-posts -->
+
+
+            
+              
+              <!-- Navigation buttons at the bottom of the post. -->
+
+<nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation">
+  
+  
+
+  
+    <a
+      href="/posts/aws-question-and-answer-practice/"
+      class="btn btn-outline-primary"
+      aria-label="Older"
+    >
+      <p>AWS Question and Answer Practice</p>
+    </a>
+  
+
+  
+    <a
+      href="/posts/developing-on-aws/"
+      class="btn btn-outline-primary"
+      aria-label="Newer"
+    >
+      <p>Developing on AWS</p>
+    </a>
+  
+</nav>
+
+            
+              
+              <!--  The comments switcher -->
+
+
+            
+
+            <!-- The Footer -->
+
+<footer
+  aria-label="Site Info"
+  class="
+    d-flex flex-column justify-content-center text-muted
+    flex-lg-row justify-content-lg-between align-items-lg-center pb-lg-3
+  "
+>
+  <p>©
+    <time>2025</time>
+
+    
+      <a href="https://twitter.com/username">Hardwork đẹp trai</a>.
+    
+
+    
+      <span
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author."
+      >Some rights reserved.</span>
+    
+  </p>
+
+  <p>Using the <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme for <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a>.
+  </p>
+</footer>
+
+          </div>
+        </div>
+
+        <!-- The Search results -->
+
+<div id="search-result-wrapper" class="d-flex justify-content-center unloaded">
+  <div class="col-11 content">
+    <div id="search-hints">
+      <!-- The trending tags list -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+    
+  
+    
+    
+    
+    
+  
+    
+    
+    
+    
+      
+        
+        
+
+
+
+  <section>
+    <h2 class="panel-heading">Trending Tags</h2>
+    <div class="d-flex flex-wrap mt-3 mb-1 me-3">
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/aws/">aws</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/rails/">rails</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/api/">api</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/aws/">AWS</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/javascript/">javascript</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/ruby/">ruby</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/s3/">s3</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/architecture/">architecture</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/athena/">athena</a>
+      
+        
+        <a class="post-tag btn btn-outline-primary" href="/tags/aurora/">aurora</a>
+      
+    </div>
+  </section>
+
+
+    </div>
+    <div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div>
+  </div>
+</div>
+
+      </div>
+
+      <aside aria-label="Scroll to Top">
+        <button id="back-to-top" type="button" class="btn btn-lg btn-box-shadow">
+          <i class="fas fa-angle-up"></i>
+        </button>
+      </aside>
+    </div>
+
+    <div id="mask"></div>
+
+    
+      <aside
+  id="notification"
+  class="toast"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  data-bs-animation="true"
+  data-bs-autohide="false"
+>
+  <div class="toast-header">
+    <button
+      type="button"
+      class="btn-close ms-auto"
+      data-bs-dismiss="toast"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="toast-body text-center pt-0">
+    <p class="px-2 mb-3">A new version of content is available.</p>
+    <button type="button" class="btn btn-primary" aria-label="Update">
+      Update
+    </button>
+  </div>
+</aside>
+
+    
+
+    <!-- JavaScripts -->
+
+    <!-- JS selector for site. -->
+
+<!-- commons -->
+
+
+
+<!-- layout specified -->
+
+
+
+
+  
+
+  
+    <!-- image lazy-loading & popup & clipboard -->
+    
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+  
+    
+
+    
+
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/en.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js,npm/tocbot@4.25.0/dist/tocbot.min.js"></script>
+
+
+
+
+
+
+<script defer src="/assets/js/dist/post.min.js"></script>
+
+
+
+
+
+
+    
+
+    <!--
+  Jekyll Simple Search loader
+  See: <https://github.com/christian-fei/Simple-Jekyll-Search>
+-->
+
+
+
+
+
+<script>
+  /* Note: dependent library will be loaded in `js-selector.html` */
+  SimpleJekyllSearch({
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('search-results'),
+    json: '/assets/js/data/search.json',
+    searchResultTemplate: '  <article class="px-1 px-sm-2 px-lg-4 px-xl-0">    <header>      <h2><a href="{url}">{title}</a></h2>      <div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1">        {categories}        {tags}      </div>    </header>    <p>{snippet}</p>  </article>',
+    noResultsText: '<p class="mt-5"></p>',
+    templateMiddleware: function(prop, value, template) {
+      if (prop === 'categories') {
+        if (value === '') {
+          return `${value}`;
+        } else {
+          return `<div class="me-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`;
+        }
+      }
+
+      if (prop === 'tags') {
+        if (value === '') {
+          return `${value}`;
+        } else {
+          return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`;
+        }
+      }
+    }
+  });
+</script>
+
+  </body>
+</html>
+

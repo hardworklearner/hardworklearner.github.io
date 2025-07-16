@@ -1,0 +1,157 @@
+
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <id>http://localhost:4000/</id>
+  <title>Programmer From Zero To Mountaint</title>
+  <subtitle>A minimal, portfolio, sidebar, bootstrap Jekyll theme with responsive web design and focuses on text presentation.</subtitle>
+  <updated>2025-07-17T05:24:07+07:00</updated>
+  <author>
+    <name>Hardwork đẹp trai</name>
+    <uri>http://localhost:4000/</uri>
+  </author>
+  <link rel="self" type="application/atom+xml" href="http://localhost:4000/feed.xml"/>
+  <link rel="alternate" type="text/html" hreflang="en-US"
+    href="http://localhost:4000/"/>
+  <generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator>
+  <rights> © 2025 Hardwork đẹp trai </rights>
+  <icon>/assets/img/favicons/favicon.ico</icon>
+  <logo>/assets/img/favicons/favicon-96x96.png</logo>
+
+
+  
+  <entry>
+    <title>Laravel React AdminLTE Dashboard Project and todo example</title>
+    <link href="http://localhost:4000/posts/laravel-react-adminlte-dashboard-project-and-todo-example/" rel="alternate" type="text/html" title="Laravel React AdminLTE Dashboard Project and todo example" />
+    <published>2024-10-07T00:00:00+07:00</published>
+  
+    <updated>2025-07-15T06:00:30+07:00</updated>
+  
+    <id>http://localhost:4000/posts/laravel-react-adminlte-dashboard-project-and-todo-example/</id>
+    <content type="text/html" src="http://localhost:4000/posts/laravel-react-adminlte-dashboard-project-and-todo-example/" />
+    <author>
+      <name>Hardwork đẹp trai</name>
+    </author>
+
+  
+    
+  
+
+  <summary>Laravel React AdminLTE Project management example code  Admin Dashboard using Laravel, AdminLTE and ReactJs to coded a website with purpose using in Project management, due to example code for tutorial, this sample code cover case during code daily of a full stack developer. In this project, this was created from a long time project, so I using Laravel 5.x and update to React@lastest. I will up...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>Virtual Private Cloud (VPC) part 2</title>
+    <link href="http://localhost:4000/posts/virtual-private-cloud-vpc-part-2/" rel="alternate" type="text/html" title="Virtual Private Cloud (VPC) part 2" />
+    <published>2024-02-08T00:00:00+07:00</published>
+  
+    <updated>2025-07-15T06:00:30+07:00</updated>
+  
+    <id>http://localhost:4000/posts/virtual-private-cloud-vpc-part-2/</id>
+    <content type="text/html" src="http://localhost:4000/posts/virtual-private-cloud-vpc-part-2/" />
+    <author>
+      <name>Hardwork đẹp trai</name>
+    </author>
+
+  
+    
+    <category term="Fullstack" />
+    
+    <category term="Architect" />
+    
+    <category term="AWS" />
+    
+  
+
+  <summary>Virtual Private Cloud (VPC) VPC Components Diagram  Understanding CIDR - IPv4    Classless Inter-Domain Routing - a method for allocating IP addresses   Used in Security Groups rules and AWS networking in general   They help to define an IP address range:            We’ve seen WW.XX.YY.ZZ/32 =&amp;amp;gt; one IP       We’ve seen 0.0.0.0/0 =&amp;amp;gt; all IPs       But we can define 192.168.0.0/26 =&amp;amp;gt; 192.1...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>AWS White Papers and Architectures</title>
+    <link href="http://localhost:4000/posts/aws-white-papers-and-architectures/" rel="alternate" type="text/html" title="AWS White Papers and Architectures" />
+    <published>2024-02-08T00:00:00+07:00</published>
+  
+    <updated>2025-07-15T06:00:30+07:00</updated>
+  
+    <id>http://localhost:4000/posts/aws-white-papers-and-architectures/</id>
+    <content type="text/html" src="http://localhost:4000/posts/aws-white-papers-and-architectures/" />
+    <author>
+      <name>Hardwork đẹp trai</name>
+    </author>
+
+  
+    
+    <category term="Fullstack" />
+    
+    <category term="Architect" />
+    
+    <category term="AWS" />
+    
+  
+
+  <summary>White Papers and Architectures Well Architected Framework, Disaster Recovery, etc… Section Overview    Well Architected Framework Whitepaper   Well Architected Tool   AWS Trusted Advisor   Reference architectures resources (for real-world)   Disaster Recovery on AWS Whitepaper     Well Architected Framework General Guiding Principles      https://aws.amazon.com/architecture/well-architected   S...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>AWS Virtual Private Cloud Overview (VPC) part 1</title>
+    <link href="http://localhost:4000/posts/aws-virtual-private-cloud-overview-vpc-part-1/" rel="alternate" type="text/html" title="AWS Virtual Private Cloud Overview (VPC) part 1" />
+    <published>2024-02-07T00:00:00+07:00</published>
+  
+    <updated>2025-07-15T06:00:30+07:00</updated>
+  
+    <id>http://localhost:4000/posts/aws-virtual-private-cloud-overview-vpc-part-1/</id>
+    <content type="text/html" src="http://localhost:4000/posts/aws-virtual-private-cloud-overview-vpc-part-1/" />
+    <author>
+      <name>Hardwork đẹp trai</name>
+    </author>
+
+  
+    
+    <category term="Fullstack" />
+    
+    <category term="Blogging" />
+    
+    <category term="AWS" />
+    
+  
+
+  <summary>Virtual Private Cloud (VPC) Default VPC Walkthrough    All new AWS accounts have a default VPC   New EC2 instances are launched into the default VPC of no subnet is specified   Default VPC has Internet connectivity and all EC2 instances inside it have public IPv4 addresses   We also get a public and a private IPv4 DNS names     VPC in AWS - IPv4      VPC = Virtual Private Cloud   You can have m...</summary>
+
+  </entry>
+
+  
+  <entry>
+    <title>AWS Router 53</title>
+    <link href="http://localhost:4000/posts/aws-router-53/" rel="alternate" type="text/html" title="AWS Router 53" />
+    <published>2024-02-07T00:00:00+07:00</published>
+  
+    <updated>2025-07-15T06:00:30+07:00</updated>
+  
+    <id>http://localhost:4000/posts/aws-router-53/</id>
+    <content type="text/html" src="http://localhost:4000/posts/aws-router-53/" />
+    <author>
+      <name>Hardwork đẹp trai</name>
+    </author>
+
+  
+    
+    <category term="Fullstack" />
+    
+    <category term="Blogging" />
+    
+    <category term="AWS" />
+    
+  
+
+  <summary>Route 53 Section What is DNS    Domain Name System which translates the human friendly hostnames into the machine IP address   www.google.com =&amp;amp;gt; 172.2.17.18.36   DNS is the backbone of the internet   DNS uses hierachical naming structure     DNS Terminologies      Domain Registrar: Amazon Route 53, GoDaddy, …   DNS Records: A, AAAA, CNAME, NS, …   Zone file: contains DNS records   Name Serve...</summary>
+
+  </entry>
+
+</feed>
+
+
