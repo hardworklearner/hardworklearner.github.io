@@ -1,18 +1,54 @@
-<!DOCTYPE html>
-<html lang="en-US">
-  <meta charset="utf-8" />
-  <title>Redirecting&hellip;</title>
-  <link rel="canonical" href="https://hardworklearner.github.io/404.html" />
-  <script>
-    location = "https://hardworklearner.github.io/404.html";
-  </script>
-  <meta
-    http-equiv="refresh"
-    content="0; url=https://hardworklearner.github.io/404.html"
-  />
-  <meta name="robots" content="noindex" />
-  <h1>Redirecting&hellip;</h1>
-  <a href="https://hardworklearner.github.io/404.html"
-    >Click here if you are not redirected.</a
+---
+layout: page
+title: Posts
+permalink: /posts/
+background: "/img/bg-post.jpg"
+---
+
+{% for post in paginator.posts %}
+
+<article class="post-preview">
+  <a href="{{ post.url | relative_url }}">
+    <h2 class="post-title">{{ post.title }}</h2>
+
+    {% if post.subtitle %}
+    <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+    {% else %}
+    <h3 class="post-subtitle">
+      {{ post.excerpt | strip_html | truncatewords: 15 }}
+    </h3>
+    {% endif %}
+  </a>
+
+  <p class="post-meta">
+    Posted by {% if post.author %} {{ post.author }} {% else %} {{ site.author
+    }} {% endif %} on {{ post.date | date: '%B %d, %Y' }}
+  </p>
+</article>
+
+<hr />
+
+{% endfor %}
+
+<!-- Pagination -->
+{% if paginator.total_pages > 1 %}
+
+<div class="clearfix">
+  {% if paginator.previous_page %}
+  <a
+    class="btn btn-primary float-left"
+    href="{{ paginator.previous_page_path | relative_url }}"
   >
-</html>
+    &larr; Newer Posts
+  </a>
+  {% endif %} {% if paginator.next_page %}
+  <a
+    class="btn btn-primary float-right"
+    href="{{ paginator.next_page_path | relative_url }}"
+  >
+    Older Posts &rarr;
+  </a>
+  {% endif %}
+</div>
+
+{% endif %}

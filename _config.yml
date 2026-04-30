@@ -58,7 +58,11 @@ pwa:
   cache:
     enabled: true
     deny_paths: null
-paginate: 10
+plugins:
+  - jekyll-paginate
+
+paginate: 5
+paginate_path: "/posts/page:num/"
 kramdown:
   syntax_highlighter: rouge
   syntax_highlighter_opts:
