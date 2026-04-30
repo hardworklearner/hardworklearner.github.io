@@ -1,0 +1,373 @@
+[ 
+ 
+{ 
+"title"    : "Laravel React AdminLTE Dashboard Project and todo example", 
+"desc"     : "Laravel React AdminLTE Dashboard Project and todo example", 
+"category" : "", 
+"url"      : "/posts/laravel-react-adminlte-dashboard-project-and-todo-example/", 
+"date"     : "October  7, 2024" 
+}, 
+ 
+{ 
+"title"    : "Virtual Private Cloud (VPC) part 2", 
+"desc"     : "Virtual Private Cloud (VPC) part 2", 
+"category" : "aws, vpc, subnet, DataSync, Disaster Recovery Strategies, PilotLight, Database Migration Service, Disaster Recovery, DMS", 
+"url"      : "/posts/virtual-private-cloud-vpc-part-2/", 
+"date"     : "February  8, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS White Papers and Architectures", 
+"desc"     : "AWS White Papers and Architectures", 
+"category" : "aws, Architecture", 
+"url"      : "/posts/aws-white-papers-and-architectures/", 
+"date"     : "February  8, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Virtual Private Cloud Overview (VPC) part 1", 
+"desc"     : "AWS Virtual Private Cloud Overview (VPC) part 1", 
+"category" : "AWS, VPC, NACL, Transit Gateway, AWS Private Link, Direct Connect, VPC Flow Logs, Ephemeral Ports, VPC Peering, Internet Gateway, NAT, AWS VPN CloudHub, VPN", 
+"url"      : "/posts/aws-virtual-private-cloud-overview-vpc-part-1/", 
+"date"     : "February  7, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Router 53", 
+"desc"     : "AWS Router 53", 
+"category" : "aws, router53, DNS, A, AA, CNAME, MX, TXT, TTL, NS, Hosted Zones, Geoproximity, Traffic flow, Routing Policies, Geolocation, Failover(Active - Passive), PrivateHosted Zones, Health Checks", 
+"url"      : "/posts/aws-router-53/", 
+"date"     : "February  7, 2024" 
+}, 
+ 
+{ 
+"title"    : "Extra Solution Architecture and AWS Services discussions", 
+"desc"     : "Extra Solution Architecture and AWS Services discussions", 
+"category" : "FanOut, SNS, SQS, Lambda, EC2, SA, Solution, Pattern, CloudFront, WAF, ALB, Solution Architecture, HighPerformance Computing, Cache, NLB", 
+"url"      : "/posts/extra-solution-architecture-and-aws-services-discussions/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "Exam Review &amp; Tips", 
+"desc"     : "Exam Review &amp; Tips", 
+"category" : "aws", 
+"url"      : "/posts/exam-review-tips/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "Developing on AWS", 
+"desc"     : "Developing on AWS", 
+"category" : "aws, SDK, AWS, AWS SDK", 
+"url"      : "/posts/developing-on-aws/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Security &amp; Encryption", 
+"desc"     : "AWS Security &amp; Encryption", 
+"category" : "AWS, SSL, KMS, AWS KMS, AWS Shared Responsibility Model, Amazon Macie, Amazon Inspector, AWS Secrets Manager, AWS Shield, CloudHSM, AWS WAF, AWS Firewall Manager, Amazon GuardDuty, Inspector, SSM", 
+"url"      : "/posts/aws-security-encryption/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Question and Answer Practice", 
+"desc"     : "AWS Question and Answer Practice", 
+"category" : "aws, FAQ", 
+"url"      : "/posts/aws-question-and-answer-practice/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Monitoring, Audit, and Performance", 
+"desc"     : "AWS Monitoring, Audit, and Performance", 
+"category" : "aws, cloud Watch, SSO, AWS Resource Access Manager, SCP, IAM, Could Trailt, EventBridge", 
+"url"      : "/posts/aws-monitoring-audit-and-performance/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Machine Learning", 
+"desc"     : "AWS Machine Learning", 
+"category" : "aws, Rekognition, Transcribe, Polly, Translate, Lex& Connect, Comprehend, Sage Maker, Forecast, Kendra, Personalize, Textract", 
+"url"      : "/posts/aws-machine-learning/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Integration &amp; Messaginng", 
+"desc"     : "AWS Integration &amp; Messaginng", 
+"category" : "sqs, SQS, Queue, Long Polling, decouple", 
+"url"      : "/posts/aws-integration-messaginng/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS DNS", 
+"desc"     : "AWS DNS", 
+"category" : "aws, dns, route53, aws zone", 
+"url"      : "/posts/aws-dns/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Database: RDS, Aurora, ElastiCache, DynamoDB, S3, Athena, Redshift, AWS Glue, AWS Neptune, ElasticSearch", 
+"desc"     : "AWS Database: RDS, Aurora, ElastiCache, DynamoDB, S3, Athena, Redshift, AWS Glue, AWS Neptune, ElasticSearch", 
+"category" : "aws, athena, RedShift, dynamodb, RDS, glue, neptune, Redshift, s3, ElastiCache, ElasticSearch, Database", 
+"url"      : "/posts/aws-database-rds-aurora-elasticache-dynamodb-s3-athena-redshift-aws-glue-aws-neptune-elasticsearch/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Container: Docker, ECS and EKS", 
+"desc"     : "AWS Container: Docker, ECS and EKS", 
+"category" : "aws, ECS, EKS, Docker", 
+"url"      : "/posts/aws-container-docker-ecs-and-eks/", 
+"date"     : "February  6, 2024" 
+}, 
+ 
+{ 
+"title"    : "Serverless Overview", 
+"desc"     : "Serverless Overview", 
+"category" : "lambda, dynamodb, api, APIGateway, Cognito, SAM, CodeDeploy", 
+"url"      : "/posts/serverless-overview/", 
+"date"     : "February  5, 2024" 
+}, 
+ 
+{ 
+"title"    : "Serverless Architectures Examples", 
+"desc"     : "Serverless Architectures Examples", 
+"category" : "serverless, bigdata, pipeline, Micro Services, kinesis, firehorse, athena, QuickSight, RedShift", 
+"url"      : "/posts/serverless-architectures-examples/", 
+"date"     : "February  5, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS S3 and AWS Storage Gateway Services:", 
+"desc"     : "AWS S3 and AWS Storage Gateway Services:", 
+"category" : "aws, architecture, fullstack, s3, Glacier, EFS, FSx, EBS, kms, database, Snow family, CloudFront, InstanceStorage, StorageGateway", 
+"url"      : "/posts/aws-s3-and-aws-storage-gateway-services/", 
+"date"     : "February  5, 2024" 
+}, 
+ 
+{ 
+"title"    : "Advance S3", 
+"desc"     : "Advance S3", 
+"category" : "fullstack, architecture, s3, MFA, KMS", 
+"url"      : "/posts/advance-s3/", 
+"date"     : "February  5, 2024" 
+}, 
+ 
+{ 
+"title"    : "AWS Api gateway, Lambda, Serverless, and Services part I", 
+"desc"     : "AWS Api gateway, Lambda, Serverless, and Services part I", 
+"category" : "aws, sqs, sns, serverless, service, sts", 
+"url"      : "/posts/aws-api-gateway-lambda-serverless-and-services/", 
+"date"     : "December  5, 2022" 
+}, 
+ 
+{ 
+"title"    : "AWS concept and classic Solutions Architecture", 
+"desc"     : "AWS concept and classic Solutions Architecture", 
+"category" : "", 
+"url"      : "/posts/aws-concept-and-classic-solutions-architecture/", 
+"date"     : "December  4, 2022" 
+}, 
+ 
+{ 
+"title"    : "AWS Advance: Aurora", 
+"desc"     : "AWS Advance: Aurora", 
+"category" : "aurora, database", 
+"url"      : "/posts/aws-advance-elasticache-rds-and-aurora-part-3/", 
+"date"     : "December  4, 2022" 
+}, 
+ 
+{ 
+"title"    : "AWS Advance: RDS", 
+"desc"     : "AWS Advance: RDS", 
+"category" : "aws, RDS, Encryption, DisaterRecovery, Security, Encapsolution", 
+"url"      : "/posts/aws-advance-alb-clb-rds-and-aurora-part-2/", 
+"date"     : "December  4, 2022" 
+}, 
+ 
+{ 
+"title"    : "AWS Certified Solutions Architect - Associate (SAA-C03) Exam Guide", 
+"desc"     : "AWS Certified Solutions Architect - Associate (SAA-C03) Exam Guide", 
+"category" : "aws", 
+"url"      : "/posts/aws-certified-solutions-architect-associate-saa-c03-exam-guide/", 
+"date"     : "December  3, 2022" 
+}, 
+ 
+{ 
+"title"    : "AWS Advance: Auto scaling and auto load balancer", 
+"desc"     : "AWS Advance: Auto scaling and auto load balancer", 
+"category" : "aws
+aurora, elasticcache, rds, aurora, redis, memcache, template, asg, acl, NLB", 
+"url"      : "/posts/aws-advance/", 
+"date"     : "December  3, 2022" 
+}, 
+ 
+{ 
+"title"    : "Node.JS concept", 
+"desc"     : "Node.JS concept", 
+"category" : "node.js, javascript, js, node, emitt", 
+"url"      : "/posts/nodejs-concept/", 
+"date"     : "September  2, 2022" 
+}, 
+ 
+{ 
+"title"    : "gRPC – An RPC library and framework", 
+"desc"     : "gRPC – An RPC library and framework", 
+"category" : "", 
+"url"      : "/posts/grpc-an-rpc-library-and-framework/", 
+"date"     : "May 10, 2022" 
+}, 
+ 
+{ 
+"title"    : "How to create ecommerce website use Laravel 9, VueJs, Docker, Supervisord, Brooadcast and Redis Queue (part 1)", 
+"desc"     : "How to create ecommerce website use Laravel 9, VueJs, Docker, Supervisord, Brooadcast and Redis Queue (part 1)", 
+"category" : "", 
+"url"      : "/posts/how-to-create-ecommerce-website-use-laravel-9-vuejs-docker-supervisord-brooadcast-and-redis-queue-part-1/", 
+"date"     : "May  9, 2022" 
+}, 
+ 
+{ 
+"title"    : "SOLID principles, and SOLID in frameworks (part 1)", 
+"desc"     : "SOLID principles, and SOLID in frameworks (part 1)", 
+"category" : "solid, rails, laravel, PHP, ruby, python", 
+"url"      : "/posts/solid-principles-and-solid-in-frameworks/", 
+"date"     : "April 16, 2022" 
+}, 
+ 
+{ 
+"title"    : "How to build a Shortened URL By Ruby On Rails like Bitly or Twitter", 
+"desc"     : "How to build a Shortened URL By Ruby On Rails like Bitly or Twitter", 
+"category" : "rails, api, rspec, shortenURL", 
+"url"      : "/posts/shortened-url-by-ruby-on-rails/", 
+"date"     : "April 16, 2022" 
+}, 
+ 
+{ 
+"title"    : "Decoupling Ruby on Rails: Delegation vs Dependency Injection", 
+"desc"     : "Decoupling Ruby on Rails: Delegation vs Dependency Injection", 
+"category" : "ruby, solid, dependency, rails, oop", 
+"url"      : "/posts/decoupling-ruby-on-rails-delegation-vs-dependency-injection/", 
+"date"     : "April 16, 2022" 
+}, 
+ 
+{ 
+"title"    : "Loop with decrement order in Python, Ruby, PHP.", 
+"desc"     : "Loop with decrement order in Python, Ruby, PHP.", 
+"category" : "python, ruby, php, loop, for-loop", 
+"url"      : "/posts/loop-with-decrement-order-in-Python-Ruby-PHP/", 
+"date"     : "March 12, 2022" 
+}, 
+ 
+{ 
+"title"    : "Repository pattern và repository pattern trong laravel", 
+"desc"     : "Repository pattern và repository pattern trong laravel", 
+"category" : "design-pattern, laravel", 
+"url"      : "/posts/Repository-pattern-va-repository-pattern-trong-laravel/", 
+"date"     : "July 31, 2021" 
+}, 
+ 
+{ 
+"title"    : "Phương thức thanh toán Softbank cài đặt bằng ngôn ngữ PHP", 
+"desc"     : "Phương thức thanh toán Softbank cài đặt bằng ngôn ngữ PHP", 
+"category" : "php, softbank, au, paypay", 
+"url"      : "/posts/softbank-payment-japan/", 
+"date"     : "July 18, 2021" 
+}, 
+ 
+{ 
+"title"    : "Trình soạn thảo cho jekyll", 
+"desc"     : "Trình soạn thảo cho jekyll", 
+"category" : "jekyll, rails, bugs", 
+"url"      : "/posts/jekyll-admin-simple-but-power-editor-for-jekyll/", 
+"date"     : "July 18, 2021" 
+}, 
+ 
+{ 
+"title"    : "Rails dynamic notifications by ajax", 
+"desc"     : "Rails dynamic notifications by ajax", 
+"category" : "rails, javascript, notification, ajax", 
+"url"      : "/posts/rails-dynamic-notifications/", 
+"date"     : "April  9, 2021" 
+}, 
+ 
+{ 
+"title"    : "Add highlight input filed", 
+"desc"     : "Add highlight input filed", 
+"category" : "input, bootstrap, blue-highline", 
+"url"      : "/posts/add-highlight-input-filed/", 
+"date"     : "April  8, 2021" 
+}, 
+ 
+{ 
+"title"    : "Rails validation form", 
+"desc"     : "Rails validation form", 
+"category" : "rails, html, javascript", 
+"url"      : "/posts/rails-validation-form/", 
+"date"     : "March 28, 2021" 
+}, 
+ 
+{ 
+"title"    : "Things after install ubuntu 20.04 for developer", 
+"desc"     : "Things after install ubuntu 20.04 for developer", 
+"category" : "ubuntu, ubuntu20.04, setup", 
+"url"      : "/posts/things-after-install-ubuntu-2004-for-developer/", 
+"date"     : "March 27, 2021" 
+}, 
+ 
+{ 
+"title"    : "Cài đặt môi trường Ruby on Rails trên ubuntu 20.04", 
+"desc"     : "Cài đặt môi trường Ruby on Rails trên ubuntu 20.04", 
+"category" : "rails, git, postgresql, mysql", 
+"url"      : "/posts/cai-dat-moi-truong-ruby-on-rails-tren-ubuntu/", 
+"date"     : "March 22, 2021" 
+}, 
+ 
+{ 
+"title"    : "Bug thần thánh permission denied @ rb_sysopen", 
+"desc"     : "Bug thần thánh permission denied @ rb_sysopen", 
+"category" : "rails, bug, rvm", 
+"url"      : "/posts/bug-rails-gem-server-sysopen/", 
+"date"     : "March 22, 2021" 
+}, 
+ 
+{ 
+"title"    : "Tạo Rails API với Grape", 
+"desc"     : "Tạo Rails API với Grape", 
+"category" : "rails, api, grape", 
+"url"      : "/posts/Tao-rails-api-voi-grape/", 
+"date"     : "March 22, 2021" 
+}, 
+ 
+{ 
+"title"    : "Tạo Blog đơn giản với Github và Jekyll", 
+"desc"     : "Tạo Blog đơn giản với Github và Jekyll", 
+"category" : "github, jekyll", 
+"url"      : "/posts/tao-blog-don-gian-voi-jekyll/", 
+"date"     : "March 20, 2021" 
+}, 
+ 
+{ 
+"title"    : "Enable Google Page Views", 
+"desc"     : "Enable Google Page Views", 
+"category" : "google analytics, pageviews", 
+"url"      : "/posts/enable-google-pv/", 
+"date"     : "January  4, 2021" 
+}, 
+ 
+ 
+{ 
+"title"    : "My website", 
+"desc"     : "My website", 
+"category" : "page", 
+"url"      : "/", 
+"date"     : "January 1, 1970" 
+} 
+ 
+]
