@@ -361,13 +361,333 @@ aurora, elasticcache, rds, aurora, redis, memcache, template, asg, acl, NLB",
 "date"     : "January  4, 2021" 
 }, 
  
+{ 
+"title"    : "Man must explore, and this is exploration at its greatest", 
+"desc"     : "Man must explore, and this is exploration at its greatest", 
+"category" : "", 
+"url"      : "/posts/man-must-explore/", 
+"date"     : "January 31, 2020" 
+}, 
  
 { 
-"title"    : "My website", 
-"desc"     : "My website", 
+"title"    : "Man must explore, and this is exploration at its greatest", 
+"desc"     : "Man must explore, and this is exploration at its greatest", 
+"category" : "", 
+"url"      : "/posts/man-must-explore/", 
+"date"     : "January 31, 2020" 
+}, 
+ 
+{ 
+"title"    : "Man must explore, and this is exploration at its greatest", 
+"desc"     : "Man must explore, and this is exploration at its greatest", 
+"category" : "", 
+"url"      : "/posts/man-must-explore/", 
+"date"     : "January 31, 2020" 
+}, 
+ 
+{ 
+"title"    : "Man must explore, and this is exploration at its greatest", 
+"desc"     : "Man must explore, and this is exploration at its greatest", 
+"category" : "", 
+"url"      : "/posts/man-must-explore/", 
+"date"     : "January 31, 2020" 
+}, 
+ 
+{ 
+"title"    : "I believe every human has a finite number of heartbeats. I don&#39;t intend to waste any of mine.", 
+"desc"     : "I believe every human has a finite number of heartbeats. I don&#39;t intend to waste any of mine.", 
+"category" : "", 
+"url"      : "/posts/heartbeats/", 
+"date"     : "January 31, 2020" 
+}, 
+ 
+{ 
+"title"    : "I believe every human has a finite number of heartbeats. I don&#39;t intend to waste any of mine.", 
+"desc"     : "I believe every human has a finite number of heartbeats. I don&#39;t intend to waste any of mine.", 
+"category" : "", 
+"url"      : "/posts/heartbeats/", 
+"date"     : "January 31, 2020" 
+}, 
+ 
+{ 
+"title"    : "I believe every human has a finite number of heartbeats. I don&#39;t intend to waste any of mine.", 
+"desc"     : "I believe every human has a finite number of heartbeats. I don&#39;t intend to waste any of mine.", 
+"category" : "", 
+"url"      : "/posts/heartbeats/", 
+"date"     : "January 31, 2020" 
+}, 
+ 
+{ 
+"title"    : "I believe every human has a finite number of heartbeats. I don&#39;t intend to waste any of mine.", 
+"desc"     : "I believe every human has a finite number of heartbeats. I don&#39;t intend to waste any of mine.", 
+"category" : "", 
+"url"      : "/posts/heartbeats/", 
+"date"     : "January 31, 2020" 
+}, 
+ 
+{ 
+"title"    : "Science has not yet mastered prophecy", 
+"desc"     : "Science has not yet mastered prophecy", 
+"category" : "", 
+"url"      : "/posts/prophecy/", 
+"date"     : "January 30, 2020" 
+}, 
+ 
+{ 
+"title"    : "Science has not yet mastered prophecy", 
+"desc"     : "Science has not yet mastered prophecy", 
+"category" : "", 
+"url"      : "/posts/prophecy/", 
+"date"     : "January 30, 2020" 
+}, 
+ 
+{ 
+"title"    : "Science has not yet mastered prophecy", 
+"desc"     : "Science has not yet mastered prophecy", 
+"category" : "", 
+"url"      : "/posts/prophecy/", 
+"date"     : "January 30, 2020" 
+}, 
+ 
+{ 
+"title"    : "Science has not yet mastered prophecy", 
+"desc"     : "Science has not yet mastered prophecy", 
+"category" : "", 
+"url"      : "/posts/prophecy/", 
+"date"     : "January 30, 2020" 
+}, 
+ 
+{ 
+"title"    : "Failure is not an option", 
+"desc"     : "Failure is not an option", 
+"category" : "", 
+"url"      : "/posts/exploration/", 
+"date"     : "January 29, 2020" 
+}, 
+ 
+{ 
+"title"    : "Failure is not an option", 
+"desc"     : "Failure is not an option", 
+"category" : "", 
+"url"      : "/posts/exploration/", 
+"date"     : "January 29, 2020" 
+}, 
+ 
+{ 
+"title"    : "Failure is not an option", 
+"desc"     : "Failure is not an option", 
+"category" : "", 
+"url"      : "/posts/exploration/", 
+"date"     : "January 29, 2020" 
+}, 
+ 
+{ 
+"title"    : "Failure is not an option", 
+"desc"     : "Failure is not an option", 
+"category" : "", 
+"url"      : "/posts/exploration/", 
+"date"     : "January 29, 2020" 
+}, 
+ 
+{ 
+"title"    : "The dreams of yesterday are the hopes of today and the reality of tomorrow.", 
+"desc"     : "The dreams of yesterday are the hopes of today and the reality of tomorrow.", 
+"category" : "", 
+"url"      : "/posts/dreams/", 
+"date"     : "January 28, 2020" 
+}, 
+ 
+{ 
+"title"    : "The dreams of yesterday are the hopes of today and the reality of tomorrow.", 
+"desc"     : "The dreams of yesterday are the hopes of today and the reality of tomorrow.", 
+"category" : "", 
+"url"      : "/posts/dreams/", 
+"date"     : "January 28, 2020" 
+}, 
+ 
+{ 
+"title"    : "The dreams of yesterday are the hopes of today and the reality of tomorrow.", 
+"desc"     : "The dreams of yesterday are the hopes of today and the reality of tomorrow.", 
+"category" : "", 
+"url"      : "/posts/dreams/", 
+"date"     : "January 28, 2020" 
+}, 
+ 
+{ 
+"title"    : "The dreams of yesterday are the hopes of today and the reality of tomorrow.", 
+"desc"     : "The dreams of yesterday are the hopes of today and the reality of tomorrow.", 
+"category" : "", 
+"url"      : "/posts/dreams/", 
+"date"     : "January 28, 2020" 
+}, 
+ 
+{ 
+"title"    : "Dinosaurs are extinct today", 
+"desc"     : "Dinosaurs are extinct today", 
+"category" : "", 
+"url"      : "/posts/dinosaurs/", 
+"date"     : "January 27, 2020" 
+}, 
+ 
+{ 
+"title"    : "Dinosaurs are extinct today", 
+"desc"     : "Dinosaurs are extinct today", 
+"category" : "", 
+"url"      : "/posts/dinosaurs/", 
+"date"     : "January 27, 2020" 
+}, 
+ 
+{ 
+"title"    : "Dinosaurs are extinct today", 
+"desc"     : "Dinosaurs are extinct today", 
+"category" : "", 
+"url"      : "/posts/dinosaurs/", 
+"date"     : "January 27, 2020" 
+}, 
+ 
+{ 
+"title"    : "Dinosaurs are extinct today", 
+"desc"     : "Dinosaurs are extinct today", 
+"category" : "", 
+"url"      : "/posts/dinosaurs/", 
+"date"     : "January 27, 2020" 
+}, 
+ 
+ 
+{ 
+"title"    : "About Me", 
+"desc"     : "About Me", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-41507-ay499k/about/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "About Me", 
+"desc"     : "About Me", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260501-77816-ot50dt/about/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "About Me", 
+"desc"     : "About Me", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-40438-zebsz8/about/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "About Me", 
+"desc"     : "About Me", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-42248-trcwc0/about/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "Contact Me", 
+"desc"     : "Contact Me", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-41507-ay499k/contact/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "Contact Me", 
+"desc"     : "Contact Me", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260501-77816-ot50dt/contact/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "Contact Me", 
+"desc"     : "Contact Me", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-40438-zebsz8/contact/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "Contact Me", 
+"desc"     : "Contact Me", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-42248-trcwc0/contact/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "Posts", 
+"desc"     : "Posts", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-41507-ay499k/posts/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "", 
+"desc"     : "", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-41507-ay499k/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "Posts", 
+"desc"     : "Posts", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260501-77816-ot50dt/posts/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "", 
+"desc"     : "", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260501-77816-ot50dt/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "Posts", 
+"desc"     : "Posts", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-40438-zebsz8/posts/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "", 
+"desc"     : "", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-40438-zebsz8/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "Posts", 
+"desc"     : "Posts", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-42248-trcwc0/posts/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "", 
+"desc"     : "", 
+"category" : "page", 
+"url"      : "/private/var/folders/mh/w18k8wm91nlf3tptmxm7xm180000gn/T/jekyll-remote-theme-20260430-42248-trcwc0/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
+"title"    : "Laravel React AdminLTE Dashboard", 
+"desc"     : "Laravel React AdminLTE Dashboard", 
 "category" : "page", 
 "url"      : "/", 
-"date"     : "January 1, 1970" 
+"date"     : "October  7, 2024" 
 } 
  
 ]
