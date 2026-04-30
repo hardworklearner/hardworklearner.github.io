@@ -2,7 +2,9 @@ source "https://rubygems.org"
 
 ruby ">=3.1.0"
 
-gem "jekyll", "~> 4.3"
+gem "jekyll", "~> 4.3.2"
+gem "jekyll-remote-theme", "~> 0.4.3"
+gem "webrick"
 # gem "jekyll-theme-chirpy", "~> 7.3"
 # gem "jekyll-theme-minimal"
 gem "beautiful-jekyll-theme", "6.0.1"
@@ -10,13 +12,13 @@ gem "jekyll-multiple-languages-plugin"
 gem "jekyll-feed", "~> 0.12"
 gem "jekyll-admin"
 gem "jekyll-seo-tag"
+gem "jekyll-paginate"
 
 group :test do
   gem "html-proofer", "~> 4.4"
 end
 
 gem "nokogiri", "~> 1.15"
-gem "webrick", "~> 1.7"
 
 platforms :mingw, :x64_mingw, :mswin do
   gem "tzinfo", ">= 1", "< 3"

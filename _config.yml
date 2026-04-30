@@ -1,7 +1,5 @@
 remote_theme: StartBootstrap/startbootstrap-clean-blog-jekyll
-plugins:
-  - jekyll-remote-theme
-baseurl: ''
+baseurl: ""
 lang: en-US
 timezone: Asia/Ho_Chi_Minh
 title: Programmer blog
@@ -9,7 +7,7 @@ tagline: Programmer blog
 description: >-
   A minimal, portfolio, sidebar, bootstrap Jekyll theme with responsive web
   design and focuses on text presentation.
-url: 'https://hardworklearner.github.io'
+url: "https://hardworklearner.github.io"
 author: Hardwork đẹp trai
 github:
   username: hardworklearner
@@ -19,19 +17,19 @@ social:
   name: Hardwork đẹp trai
   email: hardworklearner@gmail.com
   links:
-    - 'https://twitter.com/username'
-    - 'https://github.com/hardworklearner'
-    - 'https://www.linkedin.com/in/hardwork-nguyen-75312a7b/'
+    - "https://twitter.com/username"
+    - "https://github.com/hardworklearner"
+    - "https://www.linkedin.com/in/hardwork-nguyen-75312a7b/"
 google_site_verification: google_meta_tag_verification
 google_analytics:
   id: G-S57T0PJRJG
   pv:
     enabled: false
-    proxy_url: 'https://www.google-analytics.com'
-    proxy_endpoint: 'https://www.google-analytics.com'
+    proxy_url: "https://www.google-analytics.com"
+    proxy_endpoint: "https://www.google-analytics.com"
     cache: false
 theme_mode: null
-img_cdn: ''
+img_cdn: ""
 avatar: assets/img/avatar.jpg
 social_preview_image: null
 toc: true
@@ -70,7 +68,7 @@ kramdown:
     block:
       line_numbers: true
       start_line: 1
-permalink: '/posts/:title/'
+permalink: "/posts/:title/"
 collections:
   tabs:
     output: true
@@ -80,23 +78,23 @@ languages:
   - en
 defaults:
   - scope:
-      path: ''
+      path: ""
       type: posts
     values:
       layout: post
       comments: true
       toc: true
-      permalink: '/posts/:title/'
+      permalink: "/posts/:title/"
   - scope:
       path: _drafts
     values:
       comments: false
   - scope:
-      path: ''
+      path: ""
       type: tabs
     values:
       layout: page
-      permalink: '/:title/'
+      permalink: "/:title/"
   - scope:
       path: assets/js/dist
     values:
@@ -115,9 +113,10 @@ compress_html:
 plugins:
   - jekyll-admin
   - jekyll-seo-tag
+  - jekyll-remote-theme
 exclude:
-  - '*.gem'
-  - '*.gemspec'
+  - "*.gem"
+  - "*.gemspec"
   - docs
   - tools
   - README.md
@@ -132,8 +131,8 @@ jekyll-archives:
     category: category
     tag: tag
   permalinks:
-    tag: '/tags/:name/'
-    category: '/categories/:name/'
+    tag: "/tags/:name/"
+    category: "/categories/:name/"
 # _config.yml
 nav:
   - title: Home
