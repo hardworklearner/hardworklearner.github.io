@@ -16,24 +16,16 @@ common-ext-js:
   - href: "https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     sri: "sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
 common-js:
-  - "/assets/js/beautifuljekyll.js"
+  - "{{ '/assets/css/beautifuljekyll.css' | relative_url }}"
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ page.language | default: site.language | default: 'en' }}">
-<!-- Beautiful Jekyll 6.0.1 | Copyright Dean Attali 2023 -->
-{% include head.html %}
+  <!-- Beautiful Jekyll 6.0.1 | Copyright Dean Attali 2023 -->
+  {% include head.html %}
 
-<body>
-  {% include gtm_body.html %}
-
-  {% include nav.html %}
-
-  {{ content }}
-
-  {% include footer.html %}
-
-  {% include footer-scripts.html %}
-
-</body>
+  <body>
+    {% include gtm_body.html %} {% include nav.html %} {{ content }} {% include
+    footer.html %} {% include footer-scripts.html %}
+  </body>
 </html>

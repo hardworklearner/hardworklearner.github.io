@@ -1,4 +1,6 @@
-theme: beautiful-jekyll-theme
+remote_theme: StartBootstrap/startbootstrap-clean-blog-jekyll
+plugins:
+  - jekyll-remote-theme
 baseurl: ''
 lang: en-US
 timezone: Asia/Ho_Chi_Minh
