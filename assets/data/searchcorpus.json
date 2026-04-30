@@ -683,6 +683,14 @@ aurora, elasticcache, rds, aurora, redis, memcache, template, asg, acl, NLB",
 }, 
  
 { 
+"title"    : "Posts", 
+"desc"     : "Posts", 
+"category" : "page", 
+"url"      : "/posts/", 
+"date"     : "January 1, 1970" 
+}, 
+ 
+{ 
 "title"    : "Laravel React AdminLTE Dashboard", 
 "desc"     : "Laravel React AdminLTE Dashboard", 
 "category" : "page", 
