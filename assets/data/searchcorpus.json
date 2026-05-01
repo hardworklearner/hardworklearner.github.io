@@ -1,6 +1,14 @@
 [ 
  
 { 
+"title"    : "View PDF in Jekyll using PDF.js", 
+"desc"     : "View PDF in Jekyll using PDF.js", 
+"category" : "pdf, pdfjs, github-pages", 
+"url"      : "/posts/view-pdf-with-pdfjs/", 
+"date"     : "May  1, 2026" 
+}, 
+ 
+{ 
 "title"    : "Laravel React AdminLTE Dashboard Project and todo example", 
 "desc"     : "Laravel React AdminLTE Dashboard Project and todo example", 
 "category" : "", 
