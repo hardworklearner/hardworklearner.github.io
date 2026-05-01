@@ -2,6 +2,7 @@
 title: About
 icon: fas fa-info-circle
 order: 4
+background: "/img/bg-about.jpg"
 ---
 
 ## 👋 Hi, I’m @hardworklearner

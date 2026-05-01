@@ -1,0 +1,34 @@
+---
+layout: page
+title: All Posts
+permalink: /posts/all/
+background: "/img/bg-post.jpg"
+---
+
+{% for post in site.posts %}
+
+<article class="post-preview">
+  <a href="{{ post.url | relative_url }}">
+    <h2 class="post-title">{{ post.title }}</h2>
+
+    {% if post.subtitle %}
+    <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+    {% else %}
+    <h3 class="post-subtitle">
+      {{ post.excerpt | strip_html | truncatewords: 15 }}
+    </h3>
+    {% endif %}
+  </a>
+
+  <p class="post-meta">
+    Posted by {{ post.author | default: site.author }} on {{ post.date | date:
+    "%B %d, %Y" }}
+  </p>
+</article>
+
+<hr />
+
+{% endfor %}
+<div class="clearfix">
+  <a class="btn btn-primary" href="/posts/"> ← Back to Posts </a>
+</div>
